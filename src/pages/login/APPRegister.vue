@@ -151,21 +151,13 @@ export default {
             classname:this.ruleForm.classname
           }
           requestRegister(registerParams).then(data => {
-            if(data.success){
               this.logining = false
               console.log(data)
               this.$message({
                 message: '添加成功！',
                 type: 'success'
               })
-            }else{
-              console.log(data)
-              this.$message({
-                message: data.msg,
-                type: 'error'
-              })
-            }
-
+            
             // this.$router.push({path: '/login'})
             console.log(registerParams)
           }).catch(err => {

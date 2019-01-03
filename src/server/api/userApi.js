@@ -45,11 +45,12 @@ router.post('/register', (req, res) => {
             console.log(err);
             if(err.errno==1062){
                 //sno重复
-                var ret = {
-                    "success" : false,
-                    "msg" : "学号已存在"
-                }
-                res.json(ret);
+                // var ret = {
+                //     "success" : false,
+                //     "message" : "学号已存在"
+                // }
+                // res.json(ret);
+                jsonWrite(res,'undefined');
             }
         }
         if (result) {
