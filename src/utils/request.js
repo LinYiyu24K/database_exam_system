@@ -72,13 +72,13 @@ export const request = (url, params, config = {}, auto_error_res = true, auto_er
     //   }
     //   return Promise.reject(res.error)
     // }
-    if(!res.success){
-      Message({
-              message: res.message,
-              type: 'error'
-            })
-    }
-    return res.result
+    // if(!res.success){
+    //   Message({
+    //           message: res.message,
+    //           type: 'error'
+    //         })
+    // }
+    return res
   }, (error) => {
     console.error(error)
     if (auto_error_res) {

@@ -20,16 +20,14 @@ var jsonWrite = function(res, ret) {
     if(typeof ret === 'undefined') {
         res.json({
             success: false,
-            msg: '操作失败'
+            result : {
+                message : "操作失败"
+            }
         });
     } else {
         var data ={
             "success": true,         //请求成功或失败
-            "result": ret,                  //请求成功后的结果
-            "error":{
-                "code": 100001,              //请求失败错误码
-                "message": "用户名字重复"     //请求失败描述
-            }
+            "result": ret               //请求成功后的结果
         }
         res.json(data);
     }
@@ -61,10 +59,9 @@ router.post('/register', (req, res) => {
     conn.query(sql, paramsArray, function(err, result) {
         if (err) {
             console.log(err);
-            jsonWrite(res, {
-                success: false,
-                msg: '操作失败'
-            });
+            if(err.errno==1062){
+                jsonWrite(res,undefined);
+            }
         }
         if (result) {
             jsonWrite(res, result);
