@@ -39,7 +39,9 @@
                 v-for="(classname,index) in classnames"   
                 :label="classname" 
                 :value="classname"
-                :key="index"></el-option>
+                :key="index"
+                :disabled="isManager"
+                ></el-option>
             </el-select>
         </el-form-item>
         <el-form-item prop="phone" label="手机号码">
@@ -91,7 +93,7 @@ export default {
     }
     return {
       logining: false,
-      classnames:['计算机科学一班','计算机科学二班','网络工程'
+      classnames:['计科一班','计科二班','网络工程','信息安全'
       ],
       ruleForm: {
         account: '',
@@ -133,6 +135,11 @@ export default {
           {required:true,message:'请选择班级',trigger:'change'}
         ]
       }
+    }
+  },
+  computed:{
+    isManager(){
+      return this.ruleForm.usertype == '管理'
     }
   },
   methods: {
