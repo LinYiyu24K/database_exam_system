@@ -43,6 +43,14 @@ router.post('/register', (req, res) => {
     conn.query(sql, [params.sno, params.password,params.sname, params.ssex,params.usertype, params.sphone,params.classname], function(err, result) {
         if (err) {
             console.log(err);
+            if(err.errno==1062){
+                //sno重复
+                var ret = {
+                    "success" : false,
+                    "msg" : "学号已存在"
+                }
+                res.json(ret);
+            }
         }
         if (result) {
             jsonWrite(res, result);
