@@ -88,6 +88,8 @@ export default {
                     message: '登录成功！',
                     type: 'success'
                   })
+                  var user = JSON.stringify(data.result[0]);
+                  window.localStorage.setItem("user",user);
                   //这里根据用户身份跳转至不同的页面
                   this.$router.push(this.fromUrl)
               }else{
