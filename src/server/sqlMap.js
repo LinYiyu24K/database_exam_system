@@ -2,7 +2,9 @@
 var sqlMap = {
     // 用户
     user: {
-        add: 'insert into student(sno, password,sname, ssex,usertype,sphone,classname) values (?, ?, ?,?,?,?,?)'
+        addStudent: 'insert into student(sno, password,sname, ssex,usertype,sphone,classname) values (?,?,?,?,?,?,?)',
+        addTeacher: 'insert into teacher(tno, password,tname, tsex,usertype,tphone,classname) values (?,?,?,?,?,?,?)',
+        addManager: 'insert into manager(dno, password,dname, dsex,usertype,dphone) values (?,?,?,?,?,?)'
     }
 }
 

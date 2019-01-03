@@ -37,21 +37,34 @@ var jsonWrite = function(res, ret) {
 
 // 增加用户接口
 router.post('/register', (req, res) => {
-    var sql = $sql.user.add;
-    var params = req.body;
+    var sql = null,
+        params = req.body,
+        paramsArray = [params.sno, params.password,params.sname, params.ssex,params.usertype, params.sphone,params.classname];
+    switch(params.usertype){
+        case '学生':{
+            sql = $sql.user.addStudent;
+            break;
+        }
+        case '教师':{
+            sql = $sql.user.addTeacher;
+            break;
+        }
+        case '管理':{
+            sql = $sql.user.addManager;
+            paramsArray = [params.sno, params.password,params.sname, params.ssex,params.usertype, params.sphone];
+            break;
+        }
+        default:
+        break;
+    }
     console.log(params);//sno, password,sname, ssex,usertype,sphone,classname
-    conn.query(sql, [params.sno, params.password,params.sname, params.ssex,params.usertype, params.sphone,params.classname], function(err, result) {
+    conn.query(sql, paramsArray, function(err, result) {
         if (err) {
             console.log(err);
-            if(err.errno==1062){
-                //sno重复
-                // var ret = {
-                //     "success" : false,
-                //     "message" : "学号已存在"
-                // }
-                // res.json(ret);
-                jsonWrite(res,'undefined');
-            }
+            jsonWrite(res, {
+                success: false,
+                msg: '操作失败'
+            });
         }
         if (result) {
             jsonWrite(res, result);
