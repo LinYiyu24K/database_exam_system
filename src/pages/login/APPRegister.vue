@@ -142,16 +142,17 @@ export default {
         if (valid) {
           this.logining = true
           var registerParams = {
-            accout: this.ruleForm.account,
+            sno: this.ruleForm.account,
             password: this.ruleForm.password,
-            checkPass: this.ruleForm.checkPass,
-            name: this.ruleForm.name,
+            sname: this.ruleForm.name,
             usertype: this.ruleForm.usertype,
-            sex: this.ruleForm.sex,
-            phone:this.ruleForm.phone
+            ssex: this.ruleForm.sex,
+            sphone:this.ruleForm.phone,
+            classname:this.ruleForm.classname
           }
           requestRegister(registerParams).then(data => {
             this.logining = false
+            console.log(data)
             this.$message({
               message: '添加成功！',
               type: 'success'

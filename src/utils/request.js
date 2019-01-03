@@ -52,27 +52,33 @@ export const request = (url, params, config = {}, auto_error_res = true, auto_er
     'data': params
   }, config)
   return axios(args).then((res) => {
-    if (!res.data.success) {
-      res.data.error = res.data.error || {}
-      console.error(res.data.error)
-      /* token失效 */
-      if (res.data.error.code === 100000) {
-        Message({
-          message: '登录失效，请重新登录',
-          type: 'error'
-        })
-        window.location.href = '/#/login'
-        return Promise.reject(res.data.error)
-      }
-      /* 其他错误 */
-      if (auto_error_data) {
-        const err_msg = res.data.error.message || '未知的服务器错误，请联系管理员！'
-        const err_cod = res.data.error.code || -1
-        MessageBox.alert(err_msg, '请求失败：' + err_cod, {confirmButtonText: '确定'})
-      }
-      return Promise.reject(res.data.error)
+    // if (!res.success) {
+    //   res.error = res.error || {}
+    //   console.error(res.error)
+    //   /* token失效 */
+    //   if (res.error.code === 100000) {
+    //     Message({
+    //       message: '登录失效，请重新登录',
+    //       type: 'error'
+    //     })
+    //     window.location.href = '/#/login'
+    //     return Promise.reject(res.error)
+    //   }
+    //   /* 其他错误 */
+    //   if (auto_error_data) {
+    //     const err_msg = res.error.message || '未知的服务器错误，请联系管理员！'
+    //     const err_cod = res.error.code || -1
+    //     MessageBox.alert(err_msg, '请求失败：' + err_cod, {confirmButtonText: '确定'})
+    //   }
+    //   return Promise.reject(res.error)
+    // }
+    if(!res.success){
+      Message({
+              message: res.message,
+              type: 'error'
+            })
     }
-    return res.data.result
+    return res.result
   }, (error) => {
     console.error(error)
     if (auto_error_res) {

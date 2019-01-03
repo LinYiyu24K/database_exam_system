@@ -11,7 +11,7 @@ import './assets/css/common.css'
 
 Vue.config.productionTip = false
 
-Mock.mockData()
+// Mock.mockData()
 Vue.use(ElementUI)
 Vue.use(VueScroll, {ops: {bar: {background: '#C0C4CC'}}})
 
