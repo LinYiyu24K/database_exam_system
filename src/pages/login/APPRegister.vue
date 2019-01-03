@@ -151,17 +151,16 @@ export default {
             classname:this.ruleForm.classname
           }
           requestRegister(registerParams).then(data => {
+            console.log(data)
+            var data = data.data;
             if(!data.success){
               this.logining = false
-              console.log(data)
-              console.log("shibai")
               this.$message({
-                message: "操作失败!",
+                message: "用户名重复！",
                 type: 'error'
               })
             }else{
               this.logining = false
-              console.log(data)
               this.$message({
                 message: '添加成功！',
                 type: 'success'
