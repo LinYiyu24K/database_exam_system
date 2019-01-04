@@ -9,8 +9,9 @@ import FuncHome from '@/pages/functions/home/FuncHome'
 import UserInfo from '@/pages/functions/forms/userManagement/UserInfo'
 import UserLists from '@/pages/functions/forms/userManagement/UserLists'
 import StudentLists from '@/pages/functions/forms/studentManagement/StudentLists'
-import SingleChoice from '@/pages/functions/forms/exerciseManagement/singleChoice'
-import MultipleChoice from '@/pages/functions/forms/exerciseManagement/multipleChoice'
+import SingleChoice from '@/pages/functions/forms/exerciseManagement/SingleChoice'
+import MultipleChoice from '@/pages/functions/forms/exerciseManagement/MultipleChoice'
+import Judgement from '@/pages/functions/forms/exerciseManagement/Judgement'
 
 
 /* 静态页面路由 */
@@ -93,7 +94,7 @@ const staticRouter = [
     icon: 'el-icon-menu',
     children: [
       {
-        path: '/forms/singlechoice',
+        path: '/forms/singleChoice',
         name: '单选题录入',
         component: SingleChoice
       },
@@ -103,9 +104,9 @@ const staticRouter = [
         component: UserLists
       },
       {
-        path: '/forms/importUser',
+        path: '/forms/judgement',
         name: '判断题录入',
-        component: AppRegister
+        component: Judgement
       },
       {
         path: '/forms/userLists',
