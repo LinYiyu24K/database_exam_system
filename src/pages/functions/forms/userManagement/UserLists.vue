@@ -2,7 +2,7 @@
   <div style="padding:0 5px 0 5px">
     <h3>用户列表</h3>
 
-    <el-table :data="tableData" border style="width: 100%" max-height="550"  v-loading="loading">
+    <el-table :data="tableData" border style="width: 100%" max-height="700"  v-loading="loading">
     <el-table-column prop="account" label="账号" sortable width="180">
     </el-table-column>
     <el-table-column prop="name" label="姓名" width="120">

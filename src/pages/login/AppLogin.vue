@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       logining: false,
-      fromUrl: '/',
+      fromUrl: '/index',
       ruleForm: {
         account: '201530551301',
         checkPass: '123456',

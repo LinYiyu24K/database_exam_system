@@ -6,8 +6,9 @@ import AppError404 from '@/pages/error/AppError404'
 import HelloWorld from '@/components/HelloWorld'
 import TheLayout from '@/pages/layout/TheLayout'
 import FuncHome from '@/pages/functions/home/FuncHome'
-import UserInfo from '@/pages/functions/forms/UserInfo'
-import UserLists from '@/pages/functions/forms/UserLists'
+import UserInfo from '@/pages/functions/forms/userManagement/UserInfo'
+import UserLists from '@/pages/functions/forms/userManagement/UserLists'
+import StudentLists from '@/pages/functions/forms/studentManagement/StudentLists'
 
 /* 静态页面路由 */
 const staticRouter = [
@@ -75,10 +76,10 @@ const staticRouter = [
     icon: 'el-icon-menu',
     children: [
       {
-        path: '/forms/userLists',
+        path: '/forms/studentLists',
         name: '学生信息',
         icon: 'el-icon-menu',
-        component: UserLists
+        component: StudentLists
       }
     ]
   }, {
