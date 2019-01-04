@@ -19,9 +19,10 @@
         </el-form-item>
         <el-form-item label="用户类型" prop="usertype">
             <el-select v-model="ruleForm.usertype" placeholder="请选择用户类型">
-                <el-option label="学生" value="student"></el-option>
+                <!-- <el-option label="学生" value="student"></el-option>
                 <el-option label="教师" value="teacher"></el-option>
-                <el-option label="管理" value="manager"></el-option>
+                <el-option label="管理" value="manager"></el-option> -->
+                <el-option :label="ruleForm.usertype" :value="ruleForm.usertype"></el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="班级" prop="classname">
@@ -53,8 +54,37 @@ export default {
       }
     }
   },
-  created(){
+  created() {
     //TODO:AJAX获取当前用户信息
+    var user = JSON.parse(window.localStorage.user);
+    console.log(user);
+    this.ruleForm.usertype = user.usertype;
+    this.ruleForm.classname = user.classname;
+    switch(user.usertype){
+      case '学生': {
+        this.ruleForm.account = user.sno;
+        this.ruleForm.name = user.sname;
+        this.ruleForm.sex = user.ssex;
+        this.ruleForm.phone = user.sphone;
+        break;
+      }
+      case '教师': {
+        this.ruleForm.account = user.tno;
+        this.ruleForm.name = user.tname;
+        this.ruleForm.sex = user.tsex;
+        this.ruleForm.phone = user.tphone;
+        break;
+      }
+      case '管理': {
+        this.ruleForm.account = user.dno;
+        this.ruleForm.name = user.dname;
+        this.ruleForm.sex = user.dsex;
+        this.ruleForm.phone = user.dphone;
+        break;
+      }
+      default:
+        break;
+    }
   }
 }
 </script>

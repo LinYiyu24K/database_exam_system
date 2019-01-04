@@ -4,16 +4,17 @@
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="0px"
                class="demo-ruleForm login-container" status-icon>
         <h3 class="title">系统登录</h3>
+
         <el-form-item prop="account">
           <el-input type="text" v-model="ruleForm.account" auto-complete="off" placeholder="账号"
                     id="loginEmail"></el-input>
         </el-form-item>
         
         <el-form-item prop="checkPass">
-        <el-input type="password" v-model="ruleForm.checkPass" auto-complete="off" placeholder="密码"
+          <el-input type="password" v-model="ruleForm.checkPass" auto-complete="off" placeholder="密码"
                     id="loginPassword"></el-input>
-          
         </el-form-item>
+
         <el-form-item  prop="usertype">
             <el-radio-group v-model="ruleForm.usertype">
             <el-radio label="学生"></el-radio>
@@ -21,14 +22,17 @@
             <el-radio label="管理"></el-radio>
             </el-radio-group>
         </el-form-item>
+
         <el-form-item style="width:100%;">
           <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">
             登录
           </el-button>
         </el-form-item>
+
         <el-form-item style="width:100%;">
           <router-link to="/forgetPassword" style="float: right; color: #bbbbbb">忘记密码？</router-link>
         </el-form-item>
+
       </el-form>
     </div>
   </div>
@@ -45,13 +49,13 @@ export default {
       logining: false,
       fromUrl: '/',
       ruleForm: {
-        account: '201530551301',
-        checkPass: '123456',
-        usertype:'教师'
+        account: '201530542637',
+        checkPass: '123',
+        usertype:'学生'
       },
       rules: {
         account: [
-          {required: true, message: '请输入账号', trigger: 'blur'},,
+          {required: true, message: '请输入账号', trigger: 'blur'},
           {min:12,max:12,message:'账号应为12位',trigger:'blur'}
         ],
         checkPass: [
@@ -61,7 +65,7 @@ export default {
             {required:true,message:'请选择用户类型',trigger:'change'}
         ]
       },
-      checked: false
+      checked: false  //这个字段是干嘛的？
     }
   },
   methods: {
@@ -69,19 +73,33 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.logining = true
-          const loginParams = {account: this.ruleForm.account, password: sha256(this.ruleForm.checkPass)}
+          const loginParams = {
+            sno: this.ruleForm.account,
+            password: this.ruleForm.checkPass,  //加密传输：sha256(this.ruleForm.checkPass)
+            usertype: this.ruleForm.usertype
+          }
           requestLogin(loginParams).then(data => {
               console.log(data)
-            if(data.success == true){
+              var data = data.data;
+              if(data.success){
+                  this.logining = false
+                  sessionStorage.setItem('username',data.username)
+                  this.$message({
+                    message: '登录成功！',
+                    type: 'success'
+                  })
+                  var user = JSON.stringify(data.result[0]);
+                  window.localStorage.setItem("user",user);
+                  //这里根据用户身份跳转至不同的页面
+                  this.$router.push(this.fromUrl)
+              }else{
+                //账号密码错误
                 this.logining = false
-                sessionStorage.setItem('username',data.username)
                 this.$message({
-                message: '登录成功！',
-                type: 'success'
+                  message: "账号密码错误，或者用户身份不匹配！",
+                  type: 'error'
                 })
-                this.$router.push(this.fromUrl)
-            }
-            
+              }
           }).catch(err => {
             this.logining = false
             console.log(err)

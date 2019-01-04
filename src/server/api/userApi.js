@@ -69,4 +69,42 @@ router.post('/register', (req, res) => {
     })
 });
 
+
+//用户登陆接口
+router.post('/login', (req, res) => {
+    var sql = null,
+        params = req.body,
+        paramsArray = [params.sno, params.password];
+    switch(params.usertype){
+        case '学生':{
+            sql = $sql.user.findStudent;
+            break;
+        }
+        case '教师':{
+            sql = $sql.user.findTeacher;
+            break;
+        }
+        case '管理':{
+            sql = $sql.user.findManager;
+            break;
+        }
+        default:
+        break;
+    }
+    console.log(params);//sno, password, usertype
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+        }
+        if (result) {
+            console.log(result);
+            if(result.length == 0){
+                jsonWrite(res,undefined);
+            }else{
+                jsonWrite(res, result);
+            }
+        }
+    })
+});
+
 module.exports = router;

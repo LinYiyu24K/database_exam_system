@@ -34,7 +34,24 @@ export default {
   props: ['openNav'],
   data () {
     // const user_info = JSON.parse(sessionStorage.getItem('user-info'))
-    const user_name = sessionStorage['username'] || '小仓鼠游客'
+    var user_name;
+    const user = JSON.parse(window.localStorage.getItem("user"));
+    switch(user.usertype){
+      case '学生': {
+        user_name = user.sname;
+        break;
+      }
+      case '教师': {
+        user_name = user.sname;
+        break;
+      }
+      case '管理': {
+        user_name = user.dname;
+        break;
+      }
+      default:
+        user_name = '小仓鼠游客';
+    }
     return {
       user_name: user_name
     }
