@@ -37,3 +37,11 @@ export const requestdeleteQuestion = params => {
 export const requestaddTestpaper = params => {
     return request('/api/user/addTestpaper', params)
 }
+//获取所有试卷列表
+export const requestGetTestpaperLists = params => {
+    return requestGET('/api/user/testpaperLists', params)
+}
+//删除试卷
+export const requestdeleteTestpaper = params => {
+    return request('/api/user/deleteTestpaper', params)
+}

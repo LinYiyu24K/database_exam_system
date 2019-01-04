@@ -277,5 +277,44 @@ router.post('/addTestpaper', (req, res) => {
         }
     })
 });
+// 获取所有试卷接口
+router.get('/testpaperLists', (req, res) => {
+    var sql = $sql.testpaper.findAllTestpapers,
+        params = req.query,
+        paramsArray = [params.tno];
+    
+    console.log("_______查询所有题目信息__________");
+    conn.query(sql, paramsArray,function(err, result) {
+        if (err) {
+            console.log(err);
+                jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("_______-获取所有试卷成功____________")
+            jsonWrite(res, result);
+        }
+    })
+});
+//删除试卷接口
+router.post('/deleteTestpaper', (req, res) => {
+    var sql = $sql.testpaper.deleteTestpaper,
+        params = req.body,
+        paramsArray = [params.testpaperno];
+        console.log("______删除的试卷对象：________");
+        console.log(params);
+        //根据题号 params.qno 删除题目
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+            jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("删除题目成功>>>>>>>>>")
+            console.log(result);
+            jsonWrite(res, result);
+        }
+    })
+});
+
 
 module.exports = router;

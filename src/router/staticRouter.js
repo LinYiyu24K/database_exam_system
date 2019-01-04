@@ -15,6 +15,8 @@ import Judgement from '@/pages/functions/forms/exerciseManagement/Judgement'
 import QuestionLists from '@/pages/functions/forms/exerciseManagement/QuestionLists'
 import Synthesis from '@/pages/functions/forms/exerciseManagement/Synthesis'
 import MakeTestpaper from '@/pages/functions/forms/testpaperManagement/MakeTestpaper'
+import TestpaperLists from '@/pages/functions/forms/testpaperManagement/TestpaperLists'
+import PublishTest from '@/pages/functions/forms/testManagement/PublishTest'
 
 
 /* 静态页面路由 */
@@ -135,9 +137,9 @@ const staticRouter = [
         component: MakeTestpaper
       },
       {
-        path: '/forms/userLists',
-        name: '试卷维护',
-        component: UserLists
+        path: '/forms/testpaperLists',
+        name: '试卷列表',
+        component: TestpaperLists
       }
     ]
   },{
@@ -148,9 +150,9 @@ const staticRouter = [
     icon: 'el-icon-menu',
     children: [
       {
-        path: '/forms/userLists',
+        path: '/forms/publishTest',
         name: '发布考试',
-        component: UserLists
+        component: PublishTest
       },
       {
         path: '/forms/userLists',

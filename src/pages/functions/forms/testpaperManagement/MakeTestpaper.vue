@@ -35,7 +35,7 @@
 
     <el-table-column
       fixed="right"
-      label="分值"
+      label="答案"
       width="180"
       prop="qanswer">
     </el-table-column>
