@@ -37,11 +37,11 @@ var jsonWrite = function(res, ret) {
 router.post('/register', (req, res) => {
     var sql = null,
         params = req.body,
-        sql2 = ';insert into sc(sno,tno,classname) select student.sno,teacher.tno,teacher.classname from student,teacher where student.classname = teacher.classname and student.sno='+params.sno,
+        // sql2 = ';insert into sc(sno,tno,classname) select student.sno,teacher.tno,teacher.classname from student,teacher where student.classname = teacher.classname and student.sno='+params.sno,
         paramsArray = [params.sno, params.password,params.sname, params.ssex,params.usertype, params.sphone,params.classname];
     switch(params.usertype){
         case '学生':{
-            sql = $sql.user.addStudent+sql2;
+            sql = $sql.user.addStudent/*+sql2*/;
             break;
         }
         case '教师':{
@@ -168,6 +168,7 @@ router.post('/deleteUser', (req, res) => {
         break;
     }
     console.log(params);//sno, password, usertype
+    console.log(sql)
     conn.query(sql, paramsArray, function(err, result) {
         if (err) {
             console.log(err);
