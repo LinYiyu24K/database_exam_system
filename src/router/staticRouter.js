@@ -85,10 +85,17 @@ const staticRouter = [
     icon: 'el-icon-menu',
     children: [
       {
-        path: '/forms/studentLists',
-        name: '学生信息',
-        icon: 'el-icon-menu',
-        component: StudentLists
+        path: '/forms/userInfo',
+        name: '个人信息',
+        component: UserInfo
+      },{
+        path: '/forms/userLists',
+        name: '进行考试',
+        component: UserLists
+      },{
+        path: '/forms/userLists',
+        name: '查看分数',
+        component: UserLists
       }
     ]
   }, {

@@ -67,7 +67,7 @@ export default {
         })
       }else{
         return optionsRoutes.filter(item=>{
-          return item.name == '首页'
+          return item.name == '首页' || item.name == '学生管理'
         })
       }
     }
