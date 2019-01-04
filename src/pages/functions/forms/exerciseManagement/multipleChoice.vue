@@ -7,7 +7,7 @@
                class="demo-ruleForm login-container" status-icon>
 
         <el-form-item prop="title" label="题目">
-          <el-input type="textarea" :row="3" placeholder="请输入题目描述" v-model="multipleChoice.title"
+          <el-input type="textarea" :rows="3" placeholder="请输入题目描述" v-model="multipleChoice.title"
                     auto-complete="off"></el-input>
         </el-form-item>
 
@@ -78,7 +78,7 @@ export default {
             {required: true, message: '请输入选项描述', trigger: 'blur'}
         ],
         answer: [
-            {type: 'array', required: true, message: '请至少选择两个题目答案', trigger: 'change'}
+            {type: 'array', required: true, message: '请至少选择一个题目答案', trigger: 'change'}
         ]
       }
     }
@@ -94,6 +94,7 @@ export default {
           console.log("_____-添加的题目：_________-")
           console.log(params)
           requestaddQuestion(params).then(data=>{
+              this.multipleChoice.answer = JSON.parse(this.multipleChoice.answer);
               this.submiting = false;
               var data = data.data;
               console.log("添加题目成功");

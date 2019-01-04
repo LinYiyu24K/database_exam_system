@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <h3>判断题录入</h3>
+    <h3>综合题录入</h3>
     <div style="margin:30px"></div>
 
     <el-form :model="judgement" :rules="rules" ref="judgement" label-position="left" label-width="80px"
@@ -12,10 +12,8 @@
         </el-form-item>
 
         <el-form-item prop="answer" label="答案" >
-            <el-radio-group v-model="judgement.answer">
-                <el-radio label="对" name="judge"></el-radio>
-                <el-radio label="错" name="judge"></el-radio>
-            </el-radio-group>
+            <el-input type="textarea" :rows="10" placeholder="请输入答案" v-model="judgement.answer"
+                    auto-complete="off"></el-input>
         </el-form-item>
 
         <el-form-item style="100%">
@@ -55,8 +53,8 @@ export default {
       handleSubmit(){
           this.submiting = true;
           var params = Object.assign(this.judgement,{
-                qtype:'判断',
-                qvalue:2
+                qtype:'综合',
+                qvalue:15
           })
           console.log("_____-添加的题目：_________-")
           console.log(params)

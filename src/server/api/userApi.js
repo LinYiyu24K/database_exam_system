@@ -195,7 +195,8 @@ router.post('/addQuestion', (req, res) => {
             sql = $sql.question.addChoices;
             break;
         }
-        case '判断':{
+        case '判断':
+        case '综合':{
             sql = $sql.question.addJudge;
             paramsArray = [params.qtype, params.title,params.answer, params.qvalue];
             break;
@@ -248,6 +249,30 @@ router.post('/deleteQuestion', (req, res) => {
         if (result) {
             console.log("删除题目成功>>>>>>>>>")
             console.log(result);
+            jsonWrite(res, result);
+        }
+    })
+});
+
+// 组卷接口
+router.post('/addTestpaper', (req, res) => {
+    var sql = $sql.testpaper.addTestpaper,
+        params = req.body,
+        qnos=[],
+        questionArray = JSON.parse(params.questionArray);
+        questionArray.forEach(item=>{
+            qnos.push(item.qno);
+        })
+    var paramsArray = [params.testpapername, params.tno].concat(qnos);
+    console.log("_______收到的组卷题目编号__________");
+    console.log(qnos);
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+                jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("_______-增加题目成功____________")
             jsonWrite(res, result);
         }
     })

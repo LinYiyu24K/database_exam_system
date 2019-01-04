@@ -32,3 +32,8 @@ export const requestGetQuestionLists = params => {
 export const requestdeleteQuestion = params => {
     return request('/api/user/deleteQuestion', params)
 }
+
+//添加试卷
+export const requestaddTestpaper = params => {
+    return request('/api/user/addTestpaper', params)
+}

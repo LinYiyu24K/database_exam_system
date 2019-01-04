@@ -1,15 +1,24 @@
 <template>
   <div style="padding:0 5px 0 5px">
-    <h3>题目列表</h3>
+    <h3>题目管理</h3>
 
     <el-table :data="tableData" border style="width: 100%" max-height="700"  v-loading="loading">
     <el-table-column prop="qcontent" label="题目描述" sortable width="300">
+        <template slot-scope="scope">
+          <el-popover trigger="hover" placement="top">
+            <p>题号: {{ scope.row.qno }}</p>
+            <p>答案: {{ scope.row.qanswer }}</p>
+              <div slot="reference" class="name-wrapper">
+                {{ scope.row.qcontent }}
+              </div>
+          </el-popover>
+      </template>
     </el-table-column>
     
-    <el-table-column prop="qtype" label="题目类型"  :filters="[{ text: '单选', value: '单选' }, { text: '多选', value: '多选' },{ text: '判断', value: '判断' }]" :filter-method="filterTag" filter-placement="bottom-end">
+    <el-table-column prop="qtype" label="题目类型"  :filters="[{ text: '单选', value: '单选' }, { text: '多选', value: '多选' },{ text: '判断', value: '判断' },{ text: '综合', value: '综合' }]" :filter-method="filterTag" filter-placement="bottom-end">
       <template slot-scope="scope">
         <el-tag
-          :type="scope.row.qtype === '单选' ? 'primary' : scope.row.qtype === '多选'?'success':'warning'"
+          :type="scope.row.qtype === '单选' ? 'primary' : scope.row.qtype === '多选'?'success':scope.row.qtype === '判断'?'info':'warning'"
           disable-transitions>{{scope.row.qtype}}</el-tag>
       </template>
     </el-table-column>

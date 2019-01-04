@@ -7,7 +7,7 @@
                class="demo-ruleForm login-container" status-icon>
 
         <el-form-item prop="title" label="题目">
-          <el-input type="textarea" :row="3" placeholder="请输入题目描述" v-model="singleChoice.title"
+          <el-input type="textarea" :rows="3" placeholder="请输入题目描述" v-model="singleChoice.title"
                     auto-complete="off"></el-input>
         </el-form-item>
 

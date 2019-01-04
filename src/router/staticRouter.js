@@ -13,6 +13,8 @@ import SingleChoice from '@/pages/functions/forms/exerciseManagement/SingleChoic
 import MultipleChoice from '@/pages/functions/forms/exerciseManagement/MultipleChoice'
 import Judgement from '@/pages/functions/forms/exerciseManagement/Judgement'
 import QuestionLists from '@/pages/functions/forms/exerciseManagement/QuestionLists'
+import Synthesis from '@/pages/functions/forms/exerciseManagement/Synthesis'
+import MakeTestpaper from '@/pages/functions/forms/testpaperManagement/MakeTestpaper'
 
 
 /* 静态页面路由 */
@@ -110,6 +112,11 @@ const staticRouter = [
         component: MultipleChoice
       },
       {
+        path: '/forms/synthesis',
+        name: '综合题录入',
+        component: Synthesis
+      },
+      {
         path: '/forms/questionLists',
         name: '题目管理',
         component: QuestionLists
@@ -123,9 +130,9 @@ const staticRouter = [
     icon: 'el-icon-menu',
     children: [
       {
-        path: '/forms/userLists',
+        path: '/forms/makeTestpaper',
         name: '试卷制作',
-        component: UserLists
+        component: MakeTestpaper
       },
       {
         path: '/forms/userLists',
