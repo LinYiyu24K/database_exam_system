@@ -33,14 +33,13 @@
                 <el-option label="管理" value="管理"></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="班级" prop="classname">
+        <el-form-item label="班级" prop="classname" v-if="isManager">
             <el-select v-model="ruleForm.classname" placeholder="请选择班级">
                 <el-option 
                 v-for="(classname,index) in classnames"   
                 :label="classname" 
                 :value="classname"
                 :key="index"
-                :disabled="isManager"
                 ></el-option>
             </el-select>
         </el-form-item>
@@ -139,7 +138,7 @@ export default {
   },
   computed:{
     isManager(){
-      return this.ruleForm.usertype == '管理'
+      return !(this.ruleForm.usertype == '管理')
     }
   },
   methods: {

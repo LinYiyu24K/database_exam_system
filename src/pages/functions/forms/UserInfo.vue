@@ -25,7 +25,7 @@
                 <el-option :label="ruleForm.usertype" :value="ruleForm.usertype"></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="班级" prop="classname">
+        <el-form-item label="班级" prop="classname" v-if="ruleForm.usertype != '管理'">
             <el-select v-model="ruleForm.classname" placeholder="请选择班级">
                 <el-option :label="ruleForm.classname" :value="ruleForm.classname"></el-option>
             </el-select>
@@ -45,18 +45,18 @@ export default {
   data(){
     return{
       ruleForm: {
-        account: '201530551301',
-        name:'拎着仓鼠',
-        sex:'男',
-        usertype:'学生',
-        phone:'13631428955',
-        classname:'计算机科学二班'
+        account: '',
+        name:'',
+        sex:'',
+        usertype:'',
+        phone:'',
+        classname:''
       }
     }
   },
   created() {
     //TODO:AJAX获取当前用户信息
-    var user = JSON.parse(window.localStorage.user);
+    var user = JSON.parse(window.localStorage.user) || {};
     console.log(user);
     this.ruleForm.usertype = user.usertype;
     this.ruleForm.classname = user.classname;

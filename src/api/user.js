@@ -1,4 +1,4 @@
-import {request} from '../utils/request'
+import {request,requestGET} from '../utils/request'
 
 export const requestLogin = params => {
     return request('/api/user/login',params).then(data=>{
@@ -10,3 +10,9 @@ export const requestLogin = params => {
 export const requestRegister = params => {
     return request('/api/user/register', params)
   }
+export const requestGetUserLists = params => {
+return requestGET('/api/user/userLists', params)
+}
+export const requestdeleteUser = params => {
+    return request('/api/user/deleteUser', params)
+}

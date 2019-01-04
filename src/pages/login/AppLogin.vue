@@ -49,9 +49,9 @@ export default {
       logining: false,
       fromUrl: '/',
       ruleForm: {
-        account: '201530542637',
-        checkPass: '123',
-        usertype:'学生'
+        account: '201530551301',
+        checkPass: '123456',
+        usertype:'教师'
       },
       rules: {
         account: [
@@ -83,7 +83,7 @@ export default {
               var data = data.data;
               if(data.success){
                   this.logining = false
-                  sessionStorage.setItem('username',data.username)
+                  // sessionStorage.setItem('username',data.username)
                   this.$message({
                     message: '登录成功！',
                     type: 'success'

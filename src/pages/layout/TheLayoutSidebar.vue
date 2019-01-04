@@ -3,7 +3,7 @@
     <!-- <vue-scroll> -->
       <el-menu :default-active="$route.path" class="sidebar-menu" :collapse="false"
                @select="menuSelect" :collapse-transition="false">
-        <template v-for="(level1, index1) in $router.options.routes" v-if="level1.menu">
+        <template v-for="(level1, index1) in sideRoutes" v-if="level1.menu">
           <!-- 一级菜单 -->
           <el-menu-item v-if="level1.children.length === 1"
                         :index="level1.children[0].path" :key="index1">  <!-- v-if 后面 && permissions.includes(level1.children[0].path)-->
@@ -38,13 +38,10 @@ export default {
   name: 'TheLayoutSidebar',
   props: ['openNav'],
   data () {
-    // let user_info = JSON.parse(sessionStorage.getItem('user-info')).permissions || []
-    // let permissions = []
-    // user_info.forEach(p => {
-    //   permissions.push(p.path)
-    // })
+    var user_name = '';
+    const user = JSON.parse(window.localStorage.getItem("user")) || {'usertype':''};
     return {
-    //   permissions
+      usertype: user.usertype
     }
   },
   methods: {
@@ -52,8 +49,28 @@ export default {
       this.$router.push(index)
     }
   },
-  created(){
-    console.log(this.$router.options.routes)
+
+  computed:{
+    sideRoutes(){
+      var optionsRoutes = this.$router.options.routes;
+      console.log('侧边栏菜单路由是：______')
+      console.log(optionsRoutes)
+      //侧边栏菜单限制
+      //如果是教师，则展示除了用户管理的页面，管理则只展示用户管理和首页，学生或者游客则只展示首页
+      if(this.usertype == '教师'){
+        return optionsRoutes.filter(item=>{
+          return item.name != '用户管理'
+        })
+      }else if(this.usertype == '管理'){
+        return optionsRoutes.filter(item=>{
+          return item.name == '用户管理' || item.name == '首页'
+        })
+      }else{
+        return optionsRoutes.filter(item=>{
+          return item.name == '首页'
+        })
+      }
+    }
   }
 }
 </script>

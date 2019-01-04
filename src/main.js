@@ -6,7 +6,7 @@ import router from './router'
 import Mock from './mock/index'
 import ElementUI from 'element-ui'
 import VueScroll from 'vuescroll'
-import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/common.css'
 
 Vue.config.productionTip = false

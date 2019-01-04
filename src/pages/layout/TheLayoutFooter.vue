@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    Copyright © linjinze999@163.com
+    Vue + ElementUI + express + mysql = 在线考试系统啦~
   </footer>
 </template>
 

@@ -69,7 +69,6 @@ router.post('/register', (req, res) => {
     })
 });
 
-
 //用户登陆接口
 router.post('/login', (req, res) => {
     var sql = null,
@@ -95,6 +94,7 @@ router.post('/login', (req, res) => {
     conn.query(sql, paramsArray, function(err, result) {
         if (err) {
             console.log(err);
+            jsonWrite(res,undefined);
         }
         if (result) {
             console.log(result);
@@ -103,6 +103,79 @@ router.post('/login', (req, res) => {
             }else{
                 jsonWrite(res, result);
             }
+        }
+    })
+});
+//用户列表接口
+router.get('/userLists', async(req, res) => {
+    var sql1 = $sql.user.findAllStudent,
+        sql2 = $sql.user.findAllTeacher,
+        sql3 = $sql.user.findAllManager,
+        sql = sql1+";"+sql2+";"+sql3,
+        params = req.query;//得到 url？后面的参数，params为对象的形式;
+    console.log("__________")
+    //console.log(params);//sno, password, usertype
+    console.log("__________")
+    await conn.query(sql, function(err, result) {
+        if (err) {
+            console.log(err);
+            jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log(result);
+            if(result.length == 0){
+                jsonWrite(res,undefined);
+            }else{
+                var ret = []
+                result.forEach(item=>{
+                    ret = ret.concat(item)
+                })
+                console.log("???????")
+                console.log(ret)
+                ret.forEach((item,index,array)=>{
+                    item.account = item.sno || item.tno || item.dno;
+                    item.name = item.sname || item.tname || item.dname;
+                    item.sex = item.ssex || item.tsex || item.dsex;
+                    item.phone = item.sphone || item.tphone || item.dphone;
+                })
+                console.log("???????")
+                // console.log(ret)
+                jsonWrite(res, ret);
+            }
+        }
+    })
+});
+//删除用户接口
+router.post('/deleteUser', (req, res) => {
+    var sql = null,
+        params = req.body,
+        paramsArray = [params.account];
+    switch(params.usertype){
+        case '学生':{
+            sql = $sql.user.deleteStudent;
+            break;
+        }
+        case '教师':{
+            sql = $sql.user.deleteTeacher;
+            break;
+        }
+        case '管理':{
+            sql = $sql.user.deleteManager;
+            break;
+        }
+        default:
+        break;
+    }
+    console.log(params);//sno, password, usertype
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+            jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log(">>>>>>>>>")
+            console.log(result);
+            jsonWrite(res, result);
         }
     })
 });

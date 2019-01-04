@@ -36,6 +36,7 @@ const staticRouter = [
     path: '/',
     component: TheLayout,
     menu: true,
+    name:'首页',
     children: [
       {
         path: '/index',
