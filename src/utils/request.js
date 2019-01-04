@@ -45,7 +45,7 @@ axios.interceptors.request.use(function (config) {
 })
 
 /* 普通请求 */
-export const requestGET = (url, params, config = {}, auto_error_res = true, auto_error_data = true) => {
+export const requestGET = (url, params={}, config = {}, auto_error_res = true, auto_error_data = true) => {
   const args = Object.assign({
     'method': 'get',
     'url': url,

@@ -184,4 +184,73 @@ router.post('/deleteUser', (req, res) => {
     })
 });
 
+// 增加题目接口
+router.post('/addQuestion', (req, res) => {
+    var sql = null,
+        params = req.body,
+        paramsArray = [params.qtype, params.title,params.answer, params.optionA,params.optionB, params.optionC,params.optionD,params.qvalue];
+    switch(params.qtype){
+        case '单选':
+        case '多选':{
+            sql = $sql.question.addChoices;
+            break;
+        }
+        case '判断':{
+            sql = $sql.question.addJudge;
+            paramsArray = [params.qtype, params.title,params.answer, params.qvalue];
+            break;
+        }
+        default:
+        break;
+    }
+    console.log("_______收到的题目信息__________");
+    console.log(params);
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+                jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("_______-增加题目成功____________")
+            jsonWrite(res, result);
+        }
+    })
+});
+// 获取所有题目接口,题目是所有教师的共有的
+router.get('/questionLists', (req, res) => {
+    var sql = $sql.question.findAllQuestions;
+    
+    console.log("_______查询所有题目信息__________");
+    conn.query(sql, function(err, result) {
+        if (err) {
+            console.log(err);
+                jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("_______-获取所有题目成功____________")
+            jsonWrite(res, result);
+        }
+    })
+});
+//删除题目接口
+router.post('/deleteQuestion', (req, res) => {
+    var sql = $sql.question.deleteQuestion,
+        params = req.body,
+        paramsArray = [params.qno];
+        console.log("______删除的题目对象：________");
+        console.log(params);
+        //根据题号 params.qno 删除题目
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+            jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("删除题目成功>>>>>>>>>")
+            console.log(result);
+            jsonWrite(res, result);
+        }
+    })
+});
+
 module.exports = router;

@@ -13,7 +13,14 @@ var sqlMap = {
         findAllManager: 'select * from manager',
         deleteStudent: 'delete from student where sno=?',
         deleteTeacher: 'delete from teacher where tno=?',
-        deleteManager: 'delete from manager where dno=?',
+        deleteManager: 'delete from manager where dno=?'
+    },
+    //题目
+    question:{
+        addChoices:'insert into question(qtype,qcontent,qanswer,qoption1,qoption2,qoption3,qoption4,qvalue) values(?,?,?,?,?,?,?,?)',
+        addJudge:'insert into question(qtype,qcontent,qanswer,qvalue) values(?,?,?,?)',
+        findAllQuestions: 'select * from question',
+        deleteQuestion: 'delete from question where qno=?'
     }
 }
 

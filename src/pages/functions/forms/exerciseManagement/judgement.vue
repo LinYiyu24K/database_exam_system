@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import {requestaddQuestion} from '@/api/user'
+
 export default {
   name: 'Judgement',
   data(){
@@ -51,7 +53,30 @@ export default {
   },
   methods:{
       handleSubmit(){
-          console.log('1')
+          this.submiting = true;
+          var params = Object.assign(this.judgement,{
+                qtype:'判断',
+                qvalue:2
+          })
+          console.log("_____-添加的题目：_________-")
+          console.log(params)
+          requestaddQuestion(params).then(data=>{
+              this.submiting = false;
+              var data = data.data;
+              console.log("添加题目成功");
+              console.log(data);
+              if(data.success){
+                  this.$message({
+                    type: 'success',
+                    message: '添加成功!'
+                  });
+              }else{
+                  this.$message({
+                    type: 'error',
+                    message: '添加失败!'
+                  });
+              }
+          })
       }
   },
   created() {

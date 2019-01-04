@@ -12,6 +12,7 @@ import StudentLists from '@/pages/functions/forms/studentManagement/StudentLists
 import SingleChoice from '@/pages/functions/forms/exerciseManagement/SingleChoice'
 import MultipleChoice from '@/pages/functions/forms/exerciseManagement/MultipleChoice'
 import Judgement from '@/pages/functions/forms/exerciseManagement/Judgement'
+import QuestionLists from '@/pages/functions/forms/exerciseManagement/QuestionLists'
 
 
 /* 静态页面路由 */
@@ -99,19 +100,9 @@ const staticRouter = [
         component: SingleChoice
       },
       {
-        path: '/forms/userLists',
-        name: '单选题管理',
-        component: UserLists
-      },
-      {
         path: '/forms/judgement',
         name: '判断题录入',
         component: Judgement
-      },
-      {
-        path: '/forms/userLists',
-        name: '判断题管理',
-        component: UserLists
       },
       {
         path: '/forms/multipleChoice',
@@ -119,9 +110,9 @@ const staticRouter = [
         component: MultipleChoice
       },
       {
-        path: '/forms/userLists',
-        name: '多选题管理',
-        component: UserLists
+        path: '/forms/questionLists',
+        name: '题目管理',
+        component: QuestionLists
       }
     ]
   },{
