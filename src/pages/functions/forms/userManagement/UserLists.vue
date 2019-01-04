@@ -58,7 +58,7 @@ export default {
           type: 'warning'
         }).then(() => {
           var user = JSON.parse(window.localStorage['user']);
-          if(user.dno == rows[index].account){
+          if(user.dno == rows[index].account && rows[index].usertype == "管理"){
             this.$message({
                   type: 'error',
                   message: '请不要删除自己!'

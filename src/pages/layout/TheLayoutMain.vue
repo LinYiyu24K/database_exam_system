@@ -23,7 +23,7 @@ export default {
 <style scoped>
 .page-sub-main {
     padding-top:10px;
-  background-color: #EBEEF5;
+  // background-color: #EBEEF5;
   color: #666666;
 }
 </style>

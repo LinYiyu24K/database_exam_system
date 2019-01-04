@@ -9,6 +9,9 @@ import FuncHome from '@/pages/functions/home/FuncHome'
 import UserInfo from '@/pages/functions/forms/userManagement/UserInfo'
 import UserLists from '@/pages/functions/forms/userManagement/UserLists'
 import StudentLists from '@/pages/functions/forms/studentManagement/StudentLists'
+import SingleChoice from '@/pages/functions/forms/exerciseManagement/singleChoice'
+import MultipleChoice from '@/pages/functions/forms/exerciseManagement/multipleChoice'
+
 
 /* 静态页面路由 */
 const staticRouter = [
@@ -90,9 +93,9 @@ const staticRouter = [
     icon: 'el-icon-menu',
     children: [
       {
-        path: '/forms/importUser',
+        path: '/forms/singlechoice',
         name: '单选题录入',
-        component: AppRegister
+        component: SingleChoice
       },
       {
         path: '/forms/userLists',
@@ -110,9 +113,9 @@ const staticRouter = [
         component: UserLists
       },
       {
-        path: '/forms/importUser',
+        path: '/forms/multipleChoice',
         name: '多选题录入',
-        component: AppRegister
+        component: MultipleChoice
       },
       {
         path: '/forms/userLists',

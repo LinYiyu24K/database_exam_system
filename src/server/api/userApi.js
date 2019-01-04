@@ -107,8 +107,10 @@ router.post('/login', (req, res) => {
         }
     })
 });
+
+
 //用户列表接口
-router.get('/userLists', async(req, res) => {
+router.get('/userLists', (req, res) => {
     var sql1 = $sql.user.findAllStudent,
         sql2 = $sql.user.findAllTeacher,
         sql3 = $sql.user.findAllManager,
@@ -117,7 +119,7 @@ router.get('/userLists', async(req, res) => {
     console.log("__________")
     //console.log(params);//sno, password, usertype
     console.log("__________")
-    await conn.query(sql, function(err, result) {
+    conn.query(sql, function(err, result) {
         if (err) {
             console.log(err);
             jsonWrite(res,undefined);
