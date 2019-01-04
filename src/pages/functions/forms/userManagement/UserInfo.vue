@@ -1,6 +1,7 @@
 <template>
-  <div style="padding:0 5px 0 5px">
-    <h3>个人信息</h3>
+  <div class='page'>
+    <div class="info-box">
+    <h3 class="title">个人信息</h3>
     <el-form :model="ruleForm"  ref="ruleForm" label-position="left" label-width="80px"
                class="demo-ruleForm login-container" status-icon>
         <el-form-item prop="account" label="账号">
@@ -19,14 +20,11 @@
         </el-form-item>
         <el-form-item label="用户类型" prop="usertype">
             <el-select v-model="ruleForm.usertype" placeholder="请选择用户类型">
-                <!-- <el-option label="学生" value="student"></el-option>
-                <el-option label="教师" value="teacher"></el-option>
-                <el-option label="管理" value="manager"></el-option> -->
                 <el-option :label="ruleForm.usertype" :value="ruleForm.usertype"></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="班级" prop="classname" v-if="ruleForm.usertype != '管理'">
-            <el-select v-model="ruleForm.classname" placeholder="请选择班级">
+        <el-form-item label="班级" prop="classname">
+            <el-select v-model="ruleForm.classname" placeholder="无班级" :disabled="ruleForm.usertype == '管理'">
                 <el-option :label="ruleForm.classname" :value="ruleForm.classname"></el-option>
             </el-select>
         </el-form-item>
@@ -36,6 +34,7 @@
         </el-form-item>
         
       </el-form>
+      </div>
   </div>
 </template>
 
@@ -93,5 +92,36 @@ export default {
 h3{
   width:100%;
   line-height:30px;
+}
+.title {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.page{
+  background-color: #eff3f4;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+.info-box{
+    position: absolute;
+  top: 29.5%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  background-color: #FFF;
+  margin: 0;
+  padding: 2.25em;
+  box-sizing: border-box;
+  border: solid 1px #DDD;
+  border-radius: .5em;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 </style>
