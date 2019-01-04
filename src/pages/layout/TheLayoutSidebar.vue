@@ -51,6 +51,9 @@ export default {
     menuSelect (index) {
       this.$router.push(index)
     }
+  },
+  created(){
+    console.log(this.$router.options.routes)
   }
 }
 </script>

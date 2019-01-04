@@ -21,7 +21,7 @@
       width="120">
       <template slot-scope="scope">
         <el-button
-          @click.native.prevent="deleteRow(slot-scope.$index, tableData)"
+          @click.native.prevent="deleteRow(scope.$index, tableData)"
           type="text"
           size="small">
           移除
@@ -72,7 +72,7 @@ export default {
         return row.tag === value;
       },
       deleteRow(index, rows) {
-        console.log(rows.account)
+        console.log(rows[index].account)
         rows.splice(index, 1);
       }
     }

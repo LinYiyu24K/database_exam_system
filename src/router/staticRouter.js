@@ -49,7 +49,7 @@ const staticRouter = [
     path: '/',
     component: TheLayout,
     menu: true,
-    name: '用戶管理',
+    name: '用户管理',
     icon: 'el-icon-menu',
     children: [
       {
@@ -58,12 +58,100 @@ const staticRouter = [
         component: UserInfo
       }, {
         path: '/forms/userLists',
-        name: '用戶列表',
+        name: '用户列表',
         component: UserLists
       }, {
         path: '/forms/importUser',
         name: '添加用户',
         component: AppRegister
+      }
+    ]
+  }, {
+    path: '/',
+    component: TheLayout,
+    menu: true,
+    name: '学生管理',
+    icon: 'el-icon-menu',
+    children: [
+      {
+        path: '/forms/userLists',
+        name: '学生信息',
+        icon: 'el-icon-menu',
+        component: UserLists
+      }
+    ]
+  }, {
+    path: '/',
+    component: TheLayout,
+    menu: true,
+    name: '题库管理',
+    icon: 'el-icon-menu',
+    children: [
+      {
+        path: '/forms/importUser',
+        name: '单选题录入',
+        component: AppRegister
+      },
+      {
+        path: '/forms/userLists',
+        name: '单选题管理',
+        component: UserLists
+      },
+      {
+        path: '/forms/importUser',
+        name: '判断题录入',
+        component: AppRegister
+      },
+      {
+        path: '/forms/userLists',
+        name: '判断题管理',
+        component: UserLists
+      },
+      {
+        path: '/forms/importUser',
+        name: '多选题录入',
+        component: AppRegister
+      },
+      {
+        path: '/forms/userLists',
+        name: '多选题管理',
+        component: UserLists
+      }
+    ]
+  },{
+    path: '/',
+    component: TheLayout,
+    menu: true,
+    name: '试卷管理',
+    icon: 'el-icon-menu',
+    children: [
+      {
+        path: '/forms/userLists',
+        name: '试卷制作',
+        component: UserLists
+      },
+      {
+        path: '/forms/userLists',
+        name: '试卷维护',
+        component: UserLists
+      }
+    ]
+  },{
+    path: '/',
+    component: TheLayout,
+    menu: true,
+    name: '考试管理',
+    icon: 'el-icon-menu',
+    children: [
+      {
+        path: '/forms/userLists',
+        name: '发布考试',
+        component: UserLists
+      },
+      {
+        path: '/forms/userLists',
+        name: '学生成绩',
+        component: UserLists
       }
     ]
   },{
