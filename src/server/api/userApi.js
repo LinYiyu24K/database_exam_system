@@ -14,8 +14,24 @@ conn.connect(function(err) {
     }
     console.log('mysql connection already...')
   });
+var check = function(num){
+    if(0<=num && num<10){
+        return '0'+num;
+    }else{
+        return num;
+    }
+}
+var formatDatetime = function(timestamp){
+    var date = new Date(timestamp),
+        year = date.getFullYear(),
+        month = check(date.getMonth()+1),
+        day = check(date.getDate()),
+        hour = check(date.getHours()),
+        miunte = check(date.getMinutes()),
+        seconds = check(date.getSeconds());
+    return year+"-"+month+"-"+day+" "+hour+":"+minute+":"+seconds;
 
-
+}
 var jsonWrite = function(res, ret) {
     if(typeof ret === 'undefined') {
         res.json({
@@ -315,6 +331,25 @@ router.post('/deleteTestpaper', (req, res) => {
         }
     })
 });
-
+// 发布考试接口
+router.post('/addTest', (req, res) => {
+    var sql = $sql.test.addTest,
+        params = req.body,
+        start_time = formatDatetime(params.start_time_of_test),
+        end_time = formatDatetime(params.end_time_of_test),
+        paramsArray = [params.testpapername, params.testpaperno,start_time, end_time];
+    console.log("_______收到的考试安排__________");
+    console.log(params);
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+                jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("_______-增加考试成功____________")
+            jsonWrite(res, result);
+        }
+    })
+});
 
 module.exports = router;

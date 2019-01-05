@@ -45,3 +45,8 @@ export const requestGetTestpaperLists = params => {
 export const requestdeleteTestpaper = params => {
     return request('/api/user/deleteTestpaper', params)
 }
+
+//添加考试
+export const requestaddTest = params => {
+    return request('/api/user/addTest', params)
+}
