@@ -45,3 +45,10 @@ export const requestGetTestpaperLists = params => {
 export const requestdeleteTestpaper = params => {
     return request('/api/user/deleteTestpaper', params)
 }
+
+//学生获取考试信息
+export const requestExaminationInfo = params => {
+    return requestGET('/api/user/getExaminationInfo',params)
+}
+
+//

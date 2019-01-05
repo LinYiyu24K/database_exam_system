@@ -59,7 +59,7 @@ export default {
       //如果是教师，则展示除了用户管理的页面，管理则只展示用户管理和首页，学生或者游客则只展示首页
       if(this.usertype == '教师'){
         return optionsRoutes.filter(item=>{
-          return item.name != '用户管理'
+          return item.name != '用户管理' && item.name != '学生管理'
         })
       }else if(this.usertype == '管理'){
         return optionsRoutes.filter(item=>{

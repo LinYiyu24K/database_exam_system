@@ -18,6 +18,8 @@ import MakeTestpaper from '@/pages/functions/forms/testpaperManagement/MakeTestp
 import TestpaperLists from '@/pages/functions/forms/testpaperManagement/TestpaperLists'
 import PublishTest from '@/pages/functions/forms/testManagement/PublishTest'
 
+import ExaminationInfo from '@/pages/functions/forms/testManagement/ExaminationInfo'
+
 
 /* 静态页面路由 */
 const staticRouter = [
@@ -89,13 +91,9 @@ const staticRouter = [
         name: '个人信息',
         component: UserInfo
       },{
-        path: '/forms/userLists',
-        name: '进行考试',
-        component: UserLists
-      },{
-        path: '/forms/userLists',
-        name: '查看分数',
-        component: UserLists
+        path: '/forms/examinationInfo',
+        name: '考试信息',
+        component: ExaminationInfo
       }
     ]
   }, {

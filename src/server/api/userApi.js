@@ -69,7 +69,6 @@ router.post('/register', (req, res) => {
         }
     })
 });
-
 //用户登陆接口
 router.post('/login', (req, res) => {
     var sql = null,
@@ -107,10 +106,8 @@ router.post('/login', (req, res) => {
         }
     })
 });
-
-
 //用户列表接口
-router.get('/userLists', (req, res) => {
+router.get('/userLists', async(req, res) => {
     var sql1 = $sql.user.findAllStudent,
         sql2 = $sql.user.findAllTeacher,
         sql3 = $sql.user.findAllManager,
@@ -119,7 +116,7 @@ router.get('/userLists', (req, res) => {
     console.log("__________")
     //console.log(params);//sno, password, usertype
     console.log("__________")
-    conn.query(sql, function(err, result) {
+    await conn.query(sql, function(err, result) {
         if (err) {
             console.log(err);
             jsonWrite(res,undefined);
@@ -183,138 +180,73 @@ router.post('/deleteUser', (req, res) => {
         }
     })
 });
-
-// 增加题目接口
+//录入题目接口
 router.post('/addQuestion', (req, res) => {
     var sql = null,
         params = req.body,
-        paramsArray = [params.qtype, params.title,params.answer, params.optionA,params.optionB, params.optionC,params.optionD,params.qvalue];
-    switch(params.qtype){
-        case '单选':
-        case '多选':{
-            sql = $sql.question.addChoices;
+        // sql2 = ';insert into sc(sno,tno,classname) select student.sno,teacher.tno,teacher.classname from student,teacher where student.classname = teacher.classname and student.sno='+params.sno,
+        paramsArray = [params.sno, params.password,params.sname, params.ssex,params.usertype, params.sphone,params.classname];
+    switch(params.usertype){
+        case '学生':{
+            sql = $sql.user.addStudent/*+sql2*/;
             break;
         }
-        case '判断':
-        case '综合':{
-            sql = $sql.question.addJudge;
-            paramsArray = [params.qtype, params.title,params.answer, params.qvalue];
+        case '教师':{
+            sql = $sql.user.addTeacher;
+            break;
+        }
+        case '管理':{
+            sql = $sql.user.addManager;
+            paramsArray = [params.sno, params.password,params.sname, params.ssex,params.usertype, params.sphone];
             break;
         }
         default:
         break;
     }
-    console.log("_______收到的题目信息__________");
-    console.log(params);
+    console.log(params);//sno, password,sname, ssex,usertype,sphone,classname
     conn.query(sql, paramsArray, function(err, result) {
         if (err) {
             console.log(err);
+            if(err.errno==1062){
                 jsonWrite(res,undefined);
+            }
         }
         if (result) {
-            console.log("_______-增加题目成功____________")
-            jsonWrite(res, result);
-        }
-    })
-});
-// 获取所有题目接口,题目是所有教师的共有的
-router.get('/questionLists', (req, res) => {
-    var sql = $sql.question.findAllQuestions;
-    
-    console.log("_______查询所有题目信息__________");
-    conn.query(sql, function(err, result) {
-        if (err) {
-            console.log(err);
-                jsonWrite(res,undefined);
-        }
-        if (result) {
-            console.log("_______-获取所有题目成功____________")
-            jsonWrite(res, result);
-        }
-    })
-});
-//删除题目接口
-router.post('/deleteQuestion', (req, res) => {
-    var sql = $sql.question.deleteQuestion,
-        params = req.body,
-        paramsArray = [params.qno];
-        console.log("______删除的题目对象：________");
-        console.log(params);
-        //根据题号 params.qno 删除题目
-    conn.query(sql, paramsArray, function(err, result) {
-        if (err) {
-            console.log(err);
-            jsonWrite(res,undefined);
-        }
-        if (result) {
-            console.log("删除题目成功>>>>>>>>>")
-            console.log(result);
             jsonWrite(res, result);
         }
     })
 });
 
-// 组卷接口
-router.post('/addTestpaper', (req, res) => {
-    var sql = $sql.testpaper.addTestpaper,
-        params = req.body,
-        qnos=[],
-        questionArray = JSON.parse(params.questionArray);
-        questionArray.forEach(item=>{
-            qnos.push(item.qno);
-        })
-    var paramsArray = [params.testpapername, params.tno].concat(qnos);
-    console.log("_______收到的组卷题目编号__________");
-    console.log(qnos);
-    conn.query(sql, paramsArray, function(err, result) {
-        if (err) {
-            console.log(err);
-                jsonWrite(res,undefined);
-        }
-        if (result) {
-            console.log("_______-增加题目成功____________")
-            jsonWrite(res, result);
-        }
-    })
-});
-// 获取所有试卷接口
-router.get('/testpaperLists', (req, res) => {
-    var sql = $sql.testpaper.findAllTestpapers,
-        params = req.query,
-        paramsArray = [params.tno];
-    
-    console.log("_______查询所有题目信息__________");
-    conn.query(sql, paramsArray,function(err, result) {
-        if (err) {
-            console.log(err);
-                jsonWrite(res,undefined);
-        }
-        if (result) {
-            console.log("_______-获取所有试卷成功____________")
-            jsonWrite(res, result);
-        }
-    })
-});
-//删除试卷接口
-router.post('/deleteTestpaper', (req, res) => {
-    var sql = $sql.testpaper.deleteTestpaper,
-        params = req.body,
-        paramsArray = [params.testpaperno];
-        console.log("______删除的试卷对象：________");
-        console.log(params);
-        //根据题号 params.qno 删除题目
-    conn.query(sql, paramsArray, function(err, result) {
+//学生获取考试信息
+router.get('/getExaminationInfo', (req, res) => {
+    var sql = `select * from test_management where testpaperno = any(
+            select testpaperno from testpaper where tno = (
+                select tno from sc where sno=?
+            )
+        )`,
+        params = req.query;//得到 url？后面的参数，params为对象的形式;
+
+    conn.query(sql, params.sno, function(err, result) {
         if (err) {
             console.log(err);
             jsonWrite(res,undefined);
         }
         if (result) {
-            console.log("删除题目成功>>>>>>>>>")
             console.log(result);
-            jsonWrite(res, result);
+            if(result.length == 0){
+                jsonWrite(res,undefined);
+            }else{
+                // var ret = [];
+                // result.forEach(item => {
+                //     ret.concat(item);
+                // })
+                // console.log(ret)
+                // console.log(result[0])
+                // console.log(result[1])
+                jsonWrite(res, result);
+            }
         }
     })
 });
-
 
 module.exports = router;
