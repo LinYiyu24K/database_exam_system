@@ -24,7 +24,7 @@ export const requestdeleteUser = params => {
 export const requestaddQuestion = params => {
     return request('/api/user/addQuestion', params)
 }
-//获取所有用户信息列表
+//获取所有题目列表
 export const requestGetQuestionLists = params => {
     return requestGET('/api/user/questionLists', params)
 }
@@ -54,4 +54,20 @@ export const requestExaminationInfo = params => {
 //添加考试
 export const requestaddTest = params => {
     return request('/api/user/addTest', params)
+}
+//删除考试
+export const requestdeleteTest = params => {
+    return request('/api/user/deleteTest', params)
+}
+//根据试卷编号获取试卷
+export const requestgetTestpaper = params => {
+    return requestGET('/api/user/getTestpaper',params)
+}
+//根据试卷编号获取试卷所有题目的内容
+export const requestgetTestpaperQuestions = params => {
+    return requestGET('/api/user/getTestpaperQuestions',params)
+}
+//交卷
+export const requestCommitTest = params => {
+    return request('/api/user/commitTest', params)
 }

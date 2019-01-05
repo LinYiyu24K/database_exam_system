@@ -386,5 +386,79 @@ router.post('/addTest', (req, res) => {
         }
     })
 });
+//删除考试接口
+router.post('/deleteTest', (req, res) => {
+    var sql = $sql.test.deleteTest,
+        params = req.body,
+        paramsArray = [params.testno];
+        console.log("______删除的试卷对象：________");
+        console.log(params);
+        //根据题号 params.qno 删除题目
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+            jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("删除题目成功>>>>>>>>>")
+            console.log(result);
+            jsonWrite(res, result);
+        }
+    })
+});
+// 根据试卷编号获取指定试卷所有题目的内容
+router.get('/getTestpaper', (req, res) => {
+    var sql = $sql.testpaper.findTestpaper,
+        params = req.query,
+        paramsArray = [params.testpaperno];
+    
+    console.log("_______查询所有题目信息__________");
+    conn.query(sql, paramsArray,function(err, result) {
+        if (err) {
+            console.log(err);
+                jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("_______-获取所有试卷成功____________")
+            jsonWrite(res, result);
+        }
+    })
+});
+// 根据试卷编号获取指定试卷
+router.get('/getTestpaperQuestions', (req, res) => {
+    var sql = $sql.testpaper.findTestpaperQuestions,
+        params = req.query,
+        paramsArray = [params.testpaperno];
+    
+    console.log("_______查询所有题目信息__________");
+    conn.query(sql, paramsArray,function(err, result) {
+        if (err) {
+            console.log(err);
+                jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("_______-获取所有试卷成功____________")
+            jsonWrite(res, result);
+        }
+    })
+});
+// 交卷接口
+router.post('/commitTest', (req, res) => {
+    var sql = $sql.testpaper.commitTest,
+        params = req.body,
+        paramsArray = [params.sno,params.testno,params.grade,params.studentanswer];
+    console.log("_______收到的胶卷考试编号__________");
+    console.log(params.testno);
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+                jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("_______-增加题目成功____________")
+            jsonWrite(res, result);
+        }
+    })
+});
 
 module.exports = router;

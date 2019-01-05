@@ -19,6 +19,7 @@ import TestpaperLists from '@/pages/functions/forms/testpaperManagement/Testpape
 import PublishTest from '@/pages/functions/forms/testManagement/PublishTest'
 import ExaminationInfo from '@/pages/functions/forms/testManagement/ExaminationInfo'
 import StudentGrade from '@/pages/functions/forms/testManagement/StudentGrade'
+import TakeExamination from '@/pages/functions/forms/testManagement/TakeExamination'
 
 
 /* 静态页面路由 */
@@ -38,6 +39,10 @@ const staticRouter = [
     path: '/forgetPassword',
     name: '忘记密码',
     component: AppForgetPassword
+  }, {
+    path: '/takeExamination',
+    name: '考试',
+    component: TakeExamination
   },
 //   {
 //     path: '/index',
