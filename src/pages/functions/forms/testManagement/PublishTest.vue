@@ -3,7 +3,7 @@
     <h3>考试发布</h3>
 
     <el-table :data="tableData" border style="width: 100%" max-height="700"  v-loading="loading">
-    <el-table-column prop="testpapername" label="试卷名" sortable width="200">
+    <el-table-column prop="testpapername" label="试卷名" sortable width="180px">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
             <p>试卷编号: {{ scope.row.testpaperno }}</p>
@@ -30,7 +30,8 @@
         <el-button
           @click.native.prevent="showDialog(scope.$index, tableData)"
           type="text"
-          size="small">
+          size="small"
+          >
           发布
         </el-button>
       </template>
@@ -100,19 +101,25 @@ export default {
           this.publishing = false;
           return 
         }else{
+          //向后台发送时间戳，并在后台格式化
           this.result.start_time_of_test = this.form.datetimeRange[0].getTime();
           this.result.end_time_of_test = this.form.datetimeRange[1].getTime();
           requestaddTest(this.result).then(data=>{
+
             var data = data.data;
-            console.log("增加试卷____")
+            console.log("增加考试____")
             console.log(data)
+
             if(data.success){
+              
               this.$message({
                 type: 'success',
                 message: "考试发布成功"
               });
               this.publishing = false;
+
             }else{
+
               this.$message({
                 type: 'error',
                 message: "考试发布失败"
