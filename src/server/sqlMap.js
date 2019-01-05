@@ -30,7 +30,9 @@ var sqlMap = {
     },
     //考试
     test:{
-        addTest:'insert into test_management(testname,testpaperno,start_time_of_test,end_time_of_test) values(?,?,?,?)'
+        addTest:'insert into test_management(testname,testpaperno,start_time_of_test,end_time_of_test) values(?,?,?,?)',
+        getExaminationStudent:'select * from test_management where testpaperno = any(select testpaperno from testpaper where tno = (select tno from sc where sno=?))',
+        getExaminationTeacher:'select * from test_management where testpaperno = any(select testpaperno from testpaper where tno = ?)',
     }
 }
 

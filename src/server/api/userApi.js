@@ -234,14 +234,19 @@ router.post('/addQuestion', (req, res) => {
 
 //学生获取考试信息
 router.get('/getExaminationInfo', (req, res) => {
-    var sql = `select * from test_management where testpaperno = any(
-            select testpaperno from testpaper where tno = (
-                select tno from sc where sno=?
-            )
-        )`,
+    var sql = null,
+        paramsArray = [],
         params = req.query;//得到 url？后面的参数，params为对象的形式;
-
-    conn.query(sql, params.sno, function(err, result) {
+    if(params.sno){
+        sql = $sql.test.getExaminationStudent;
+        paramsArray.push(params.sno);
+    }else{
+        sql = $sql.test.getExaminationTeacher;
+        paramsArray.push(params.tno);
+    }
+    console.log("______获取考试信息_________")
+    console.log(sql)
+    conn.query(sql, paramsArray, function(err, result) {
         if (err) {
             console.log(err);
             jsonWrite(res,undefined);

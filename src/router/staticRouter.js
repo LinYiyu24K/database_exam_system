@@ -17,8 +17,8 @@ import Synthesis from '@/pages/functions/forms/exerciseManagement/Synthesis'
 import MakeTestpaper from '@/pages/functions/forms/testpaperManagement/MakeTestpaper'
 import TestpaperLists from '@/pages/functions/forms/testpaperManagement/TestpaperLists'
 import PublishTest from '@/pages/functions/forms/testManagement/PublishTest'
-
 import ExaminationInfo from '@/pages/functions/forms/testManagement/ExaminationInfo'
+import StudentGrade from '@/pages/functions/forms/testManagement/StudentGrade'
 
 
 /* 静态页面路由 */
@@ -160,9 +160,9 @@ const staticRouter = [
         component: PublishTest
       },
       {
-        path: '/forms/userLists',
+        path: '/forms/studentGrade',
         name: '学生成绩',
-        component: UserLists
+        component: StudentGrade
       }
     ]
   },{
