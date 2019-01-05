@@ -37,7 +37,7 @@
         </el-table-column>
 
         <el-table-column
-            prop="score"
+            prop="grade"
             label="分数"
             width="150"
             sortable>
@@ -61,7 +61,7 @@ export default {
                   testname : "考试一",
                   start_time_of_test : "2019-1-5 10:00:00",
                   end_time_of_test : "2019-1-5 12:00:00",
-                  score : 88
+                  grade : 88
               }
           ]
       }
@@ -70,7 +70,7 @@ export default {
       takeExamination(index,row) {
         var now = new Date();
         var endTime = new Date(row.end_time_of_test);
-        if(row.score != 0){
+        if(row.grade != 0){
             this.$notify.info({
                 title: '提示',
                 message: '你已考试完毕！'
@@ -101,9 +101,15 @@ export default {
             if (strDate >= 0 && strDate <= 9) {
                 strDate = "0" + strDate;
             }
-            var currentdate = date.getYear() + seperator1 + month + seperator1 + strDate
-                    + " " + date.getHours() + seperator2 + date.getMinutes()
-                    + seperator2 + date.getSeconds();
+            var format = function(num){
+                if(num >= 0 && num <= 9){
+                    num = "0" + num;
+                }
+                return num;
+            }
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                    + " " + format(date.getHours()) + seperator2 + format(date.getMinutes())
+                    + seperator2 + format   (date.getSeconds());
             return currentdate;
         }
     },
@@ -123,6 +129,7 @@ export default {
                 ret.forEach(item => {
                     item.end_time_of_test = this.getDateString(item.end_time_of_test);
                     item.start_time_of_test = this.getDateString(item.start_time_of_test);
+                    // item.grade = 0;
                 });
                 this.tableData = ret;
             }else{
