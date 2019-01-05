@@ -27,7 +27,7 @@ var formatDatetime = function(timestamp){
         month = check(date.getMonth()+1),
         day = check(date.getDate()),
         hour = check(date.getHours()),
-        miunte = check(date.getMinutes()),
+        minute = check(date.getMinutes()),
         seconds = check(date.getSeconds());
     return year+"-"+month+"-"+day+" "+hour+":"+minute+":"+seconds;
 
@@ -337,7 +337,7 @@ router.post('/addTest', (req, res) => {
         params = req.body,
         start_time = formatDatetime(params.start_time_of_test),
         end_time = formatDatetime(params.end_time_of_test),
-        paramsArray = [params.testpapername, params.testpaperno,start_time, end_time];
+        paramsArray = [params.testname, params.testpaperno,start_time, end_time];
     console.log("_______收到的考试安排__________");
     console.log(params);
     conn.query(sql, paramsArray, function(err, result) {

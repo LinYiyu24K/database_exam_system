@@ -90,7 +90,7 @@ export default {
         this.publishing = true;
         this.result.testname = this.form.testname;
         var nowTime = +new Date(),
-            starTime = this.form.datetimeRange[0].getTime();
+            startTime = this.form.datetimeRange[0].getTime();
         //如果考试开始时间早于当前时间，则返回
         if(nowTime>startTime){
           this.$message({
@@ -103,7 +103,21 @@ export default {
           this.result.start_time_of_test = this.form.datetimeRange[0].getTime();
           this.result.end_time_of_test = this.form.datetimeRange[1].getTime();
           requestaddTest(this.result).then(data=>{
-            
+            var data = data.data;
+            console.log("增加试卷____")
+            console.log(data)
+            if(data.success){
+              this.$message({
+                type: 'success',
+                message: "考试发布成功"
+              });
+              this.publishing = false;
+            }else{
+              this.$message({
+                type: 'error',
+                message: "考试发布失败"
+              });
+            }
           })
         }
         console.log(this.form.timeRange);
