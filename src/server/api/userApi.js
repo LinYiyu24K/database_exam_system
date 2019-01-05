@@ -264,8 +264,6 @@ router.get('/getExaminationInfo', (req, res) => {
         }
     })
 });
-<<<<<<< HEAD
-=======
 // 发布考试接口
 router.post('/addTest', (req, res) => {
     var sql = $sql.test.addTest,
@@ -286,6 +284,5 @@ router.post('/addTest', (req, res) => {
         }
     })
 });
->>>>>>> c3526bb5f8e3974c83f4da99a70ccbdcccdb7970
 
 module.exports = router;
