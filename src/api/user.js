@@ -46,9 +46,16 @@ export const requestdeleteTestpaper = params => {
     return request('/api/user/deleteTestpaper', params)
 }
 
+<<<<<<< HEAD
 //学生获取考试信息
 export const requestExaminationInfo = params => {
     return requestGET('/api/user/getExaminationInfo',params)
 }
 
 //
+=======
+//添加考试
+export const requestaddTest = params => {
+    return request('/api/user/addTest', params)
+}
+>>>>>>> c3526bb5f8e3974c83f4da99a70ccbdcccdb7970

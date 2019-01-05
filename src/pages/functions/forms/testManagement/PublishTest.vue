@@ -28,63 +28,101 @@
       width="120">
       <template slot-scope="scope">
         <el-button
-          @click.native.prevent="deleteRow(scope.$index, tableData)"
+          @click.native.prevent="showDialog(scope.$index, tableData)"
           type="text"
           size="small">
-          移除
+          发布
         </el-button>
       </template>
     </el-table-column>
   </el-table>
+
+  <el-dialog title="考试信息" :visible.sync="dialogFormVisible">
+  <el-form :model="form">
+    <el-form-item label="考试名称" :label-width="formLabelWidth">
+      <el-input v-model="form.testname" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="考试时间" :label-width="formLabelWidth">
+      <el-date-picker
+        v-model="form.datetimeRange"
+        type="datetimerange"
+        range-separator="至"
+        start-placeholder="考试开始时间"
+        end-placeholder="考试结束时间">
+      </el-date-picker>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="handlePublish" v-loading = "publishing">发 布</el-button>
+  </div>
+</el-dialog>
   </div>
 </template>
 
 <script>
-import {requestGetTestpaperLists,requestdeleteTestpaper} from '@/api/user'
+import {requestGetTestpaperLists,requestaddTest} from '@/api/user'
 export default {
   name: 'PublishTest',
   data() {
       return {
         loading:true,
-        tableData: []
+        publishing:false,
+        tableData: [],
+        dialogFormVisible: false,
+        form: {
+          testname: '',
+          datetimeRange: [],
+          date1: '',
+          date2: ''
+        },
+        formLabelWidth: '120px',
+        //直接增加属性，Vue不能响应，仅用于存储发送的数据
+        result:{}
       }
     },
     methods: {
-      
-      deleteRow(index, rows) {
-        this.$confirm('此操作将永久移除该试卷，是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-            requestdeleteTestpaper(rows[index]).then(data=>{
-              console.log(data)
-              var data = data.data;
-              if(data.success){
-                this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-                });
-                console.log('删除了试卷：'+rows[index])
-                this.getTestpaperLists();
-              }else{
-                this.$message({
-                  type: 'error',
-                  message: '删除失败!'
-                });
-              }
-          }).catch(e=>{
+      showDialog(index, rows) {
+        this.dialogFormVisible = true;
+        this.result.testpaperno = rows[index].testpaperno;
+      },
+      handlePublish(){
+        this.publishing = true;
+        this.result.testname = this.form.testname;
+        var nowTime = +new Date(),
+            startTime = this.form.datetimeRange[0].getTime();
+        //如果考试开始时间早于当前时间，则返回
+        if(nowTime>startTime){
+          this.$message({
+            type: 'error',
+            message: "时间选择错误"
+          });
+          this.publishing = false;
+          return 
+        }else{
+          this.result.start_time_of_test = this.form.datetimeRange[0].getTime();
+          this.result.end_time_of_test = this.form.datetimeRange[1].getTime();
+          requestaddTest(this.result).then(data=>{
+            var data = data.data;
+            console.log("增加试卷____")
+            console.log(data)
+            if(data.success){
+              this.$message({
+                type: 'success',
+                message: "考试发布成功"
+              });
+              this.publishing = false;
+            }else{
               this.$message({
                 type: 'error',
-                message: '删除失败'
-              });  
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
+                message: "考试发布失败"
+              });
+            }
+          })
+        }
+        console.log(this.form.timeRange);
+        this.publishing = false;
+        this.dialogFormVisible = false;
       },
       getTestpaperLists(){
         var user = JSON.parse(window.localStorage['user']),
