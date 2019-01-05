@@ -34,7 +34,7 @@ var sqlMap = {
     //考试
     test:{
         addTest:'insert into test_management(testname,testpaperno,start_time_of_test,end_time_of_test) values(?,?,?,?)',
-        getExaminationStudent:'select * from test_management where testpaperno = any(select testpaperno from testpaper where tno = (select tno from sc where sno=?))',
+        getExaminationStudent:'select test_management.*, student_test.grade from test_management left join student_test on test_management.testno=student_test.testno and (student_test.sno=? || student_test.sno=null) where test_management.testpaperno = any(select testpaperno from testpaper where tno = (select tno from sc where sno=?))',
         getExaminationTeacher:'select * from test_management where testpaperno = any(select testpaperno from testpaper where tno = ?)',
         deleteTest:'delete from test_management where testno = ?'
     }

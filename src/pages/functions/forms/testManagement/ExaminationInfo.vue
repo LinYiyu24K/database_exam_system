@@ -57,11 +57,11 @@ export default {
       return {
           tableData:[
               {
-                  testno : 1,
-                  testname : "考试一",
-                  start_time_of_test : "2019-1-5 10:00:00",
-                  end_time_of_test : "2019-1-5 12:00:00",
-                  grade : 88
+                  testno : null,
+                  testname : "初始化中...",
+                  start_time_of_test : "初始化中...",
+                  end_time_of_test : "初始化中...",
+                  grade : "初始化中..."
               }
           ]
       }
@@ -74,7 +74,7 @@ export default {
         var endTime = new Date(row.end_time_of_test).getTime();
         var startTime = new Date(row.start_time_of_test).getTime();
         console.log(now>endTime)
-        if(row.grade && row.grade != 0){
+        if(row.grade && row.grade != null){
             this.$notify.info({
                 title: '提示',
                 message: '你已考试完毕！'

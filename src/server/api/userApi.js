@@ -240,6 +240,7 @@ router.get('/getExaminationInfo', (req, res) => {
     if(params.sno){
         sql = $sql.test.getExaminationStudent;
         paramsArray.push(params.sno);
+        paramsArray.push(params.sno);
     }else{
         sql = $sql.test.getExaminationTeacher;
         paramsArray.push(params.tno);
