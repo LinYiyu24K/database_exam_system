@@ -462,4 +462,24 @@ router.post('/commitTest', (req, res) => {
     })
 });
 
+//教师查看学生成绩
+router.get('/getGrade', (req, res) => {
+    var sql = $sql.test.getGrade,
+        params = req.query,
+        paramsArray = [params.classname,params.testno];
+    
+    console.log("_______查询所有学生考试成绩信息__________");
+    console.log(params);
+    conn.query(sql, paramsArray,function(err, result) {
+        if (err) {
+            console.log(err);
+                jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("_______-获取所有学生考试成绩成功____________")
+            jsonWrite(res, result);
+        }
+    })
+});
+
 module.exports = router;

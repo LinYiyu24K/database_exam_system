@@ -71,3 +71,7 @@ export const requestgetTestpaperQuestions = params => {
 export const requestCommitTest = params => {
     return request('/api/user/commitTest', params)
 }
+//根据考试编号获取试卷所有学生的成绩
+export const requestgetTestStudentGrade = params => {
+    return requestGET('/api/user/getGrade',params)
+}

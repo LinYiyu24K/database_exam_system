@@ -3,11 +3,11 @@ import AppRegister from '@/pages/login/AppRegister'
 import AppForgetPassword from '@/pages/login/AppForgetPassword'
 import AppError401 from '@/pages/error/AppError401'
 import AppError404 from '@/pages/error/AppError404'
-import HelloWorld from '@/components/HelloWorld'
 import TheLayout from '@/pages/layout/TheLayout'
 import FuncHome from '@/pages/functions/home/FuncHome'
 import UserInfo from '@/pages/functions/forms/userManagement/UserInfo'
 import UserLists from '@/pages/functions/forms/userManagement/UserLists'
+import ModifyPassword from '@/pages/functions/forms/userManagement/ModifyPassword'
 import StudentLists from '@/pages/functions/forms/studentManagement/StudentLists'
 import SingleChoice from '@/pages/functions/forms/exerciseManagement/SingleChoice'
 import MultipleChoice from '@/pages/functions/forms/exerciseManagement/MultipleChoice'
@@ -19,6 +19,7 @@ import TestpaperLists from '@/pages/functions/forms/testpaperManagement/Testpape
 import PublishTest from '@/pages/functions/forms/testManagement/PublishTest'
 import ExaminationInfo from '@/pages/functions/forms/testManagement/ExaminationInfo'
 import StudentGrade from '@/pages/functions/forms/testManagement/StudentGrade'
+// import GetStudentGrade from '@/pages/functions/forms/testManagement/GetStudentGrade'
 import TakeExamination from '@/pages/functions/forms/testManagement/TakeExamination'
 
 
@@ -36,9 +37,9 @@ const staticRouter = [
     name: '注册',
     component: AppRegister
   }, {
-    path: '/forgetPassword',
-    name: '忘记密码',
-    component: AppForgetPassword
+    path: '/modifyPassword',
+    name: '忘记修改密码',
+    component: ModifyPassword
   }, {
     path: '/takeExamination',
     name: '考试',

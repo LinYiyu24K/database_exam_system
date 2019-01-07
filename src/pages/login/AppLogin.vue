@@ -30,7 +30,7 @@
         </el-form-item>
 
         <el-form-item style="width:100%;">
-          <router-link to="/forgetPassword" style="float: right; color: #bbbbbb">忘记密码？</router-link>
+          <router-link to="/modifyPassword" style="float: right; color: #bbbbbb">忘记密码？</router-link>
         </el-form-item>
 
       </el-form>
@@ -114,7 +114,7 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       if (from.fullPath !== '/register' && !from.meta.errorPage) {
-        vm.fromUrl = from.fullPath
+        // vm.fromUrl = from.fullPath
       }
     })
   }
