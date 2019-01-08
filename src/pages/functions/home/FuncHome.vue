@@ -8,10 +8,10 @@
       <img src="../../../assets/img/a222.jpg" alt="图片" style="height:450px;winth:100%;overflow:hidden"/>
     </el-carousel-item>
     <el-carousel-item>
-      <img src="../../../assets/img/a111.jpg" alt="图片" style="height:450px;winth:100%;overflow:hidden"/>
+      <img src="../../../assets/img/a333.jpg" alt="图片" style="height:450px;winth:100%;overflow:hidden"/>
     </el-carousel-item>
     <el-carousel-item>
-      <img src="../../../assets/img/a222.jpg" alt="图片" style="height:450px;winth:100%;overflow:hidden"/>
+      <img src="../../../assets/img/a444.jpg" alt="图片" style="height:450px;winth:100%;overflow:hidden"/>
     </el-carousel-item>
   </el-carousel>
 
@@ -43,7 +43,6 @@ export default {
   name: 'FuncHome',
   data(){
     return {
-      imgs:['../../../assets/img/a111.jpg','../../../assets/img/a222.jpg','../../../assets/img/a111.jpg','../../../assets/img/a222.jpg'],
       activeNames:['1']
     }
   }

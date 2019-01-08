@@ -74,7 +74,7 @@ export default {
         var endTime = new Date(row.end_time_of_test).getTime();
         var startTime = new Date(row.start_time_of_test).getTime();
         console.log(now>endTime)
-        if(row.grade && row.grade != null){
+        if(typeof row.grade == 'number'){
             this.$notify.info({
                 title: '提示',
                 message: '你已考试完毕！'
@@ -140,6 +140,8 @@ export default {
                 ret.forEach(item => {
                     item.end_time_of_test = this.getDateString(item.end_time_of_test);
                     item.start_time_of_test = this.getDateString(item.start_time_of_test);
+                    console.log(item.grade)
+                    console.log(typeof item.grade)
                     // item.grade = 0;
                 });
                 this.tableData = ret;

@@ -1,62 +1,51 @@
 <template>
   <div class='page'>
     <div class="login-box">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="80px"
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="top" label-width="80px"
                class="demo-ruleForm login-container" status-icon>
         <h3 class="title">修改密码</h3>
-        <el-form-item prop="account" label="账号">
+        <el-form-item prop="account" label="请输入您申请更改密码的账号"  v-show="!hasVerified">
           <el-input type="text" v-model="ruleForm.account" auto-complete="off" placeholder=""
                     id="loginEmail"></el-input>
         </el-form-item>
-        <el-form-item prop="password" label="密码">
-          <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder=""
-                    id="loginPassword"></el-input>
-        </el-form-item>
-        <el-form-item prop="checkPass" label="重复密码">
-          <el-input type="password" v-model="ruleForm.checkPass" auto-complete="off" placeholder=""
-                    id="loginCheckPass"></el-input>
-        </el-form-item>
-        <el-form-item prop="name" label="姓名">
-          <el-input type="text" v-model="ruleForm.name" auto-complete="off" placeholder=""
-                    id="loginName"></el-input>
-        </el-form-item>
-        <el-form-item  prop="sex" label="性别">
-            <el-radio-group v-model="ruleForm.sex">
-              <el-radio label="男"></el-radio>
-              <el-radio label="女"></el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item label="用户类型" prop="usertype">
+        <el-form-item label="请选择您申请更改密码的账号类型" prop="usertype" v-show="!hasVerified">
             <el-select v-model="ruleForm.usertype" placeholder="请选择用户类型">
                 <el-option label="学生" value="学生"></el-option>
                 <el-option label="教师" value="教师"></el-option>
                 <el-option label="管理" value="管理"></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="班级" prop="classname" v-if="isManager">
-            <el-select v-model="ruleForm.classname" placeholder="请选择班级">
-                <el-option 
-                v-for="(classname,index) in classnames"   
-                :label="classname" 
-                :value="classname"
-                :key="index"
-                ></el-option>
-            </el-select>
+        
+        <el-form-item prop="name" label="请输入您申请更改密码账号的姓名" v-show="!hasVerified">
+          <el-input type="text" v-model="ruleForm.name" auto-complete="off" placeholder=""
+                    id="loginName"></el-input>
         </el-form-item>
-        <el-form-item prop="phone" label="手机号码">
+        <el-form-item prop="phone" label="请输入您申请更改密码账号的手机号码" v-show="!hasVerified">
           <el-input type="text" v-model="ruleForm.phone" auto-complete="off" placeholder=""
                     id="loginPhone"></el-input>
         </el-form-item>
         
-        <el-form-item style="width:100%;">
-          <el-button type="primary" style="width:80%;" @click.native.prevent="handleSubmit" :loading="logining">
-            添加
+        
+
+        <el-form-item prop="password" label="请输入新密码" v-show="hasVerified">
+          <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder=""
+                    id="loginPassword"></el-input>
+        </el-form-item>
+        
+        <el-form-item style="width:100%;" v-show="!hasVerified">
+          <el-button type="primary" style="width:100%;" @click.native.prevent="handleVerify" :loading="verifing">
+            验证
           </el-button>
-          <!-- <router-link to="/login">
-            <el-button style="width:40%;margin-left:10%">
-              登录
-            </el-button>
-          </router-link> -->
+        </el-form-item>
+        <el-form-item style="width:100%;" v-show="hasVerified">
+          <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">
+            提交申请
+          </el-button>
+        </el-form-item>
+        <el-form-item style="width:100%;">
+          <el-button style="width:100%;" @click.native.prevent="handleBack">
+            返回登陆
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -64,7 +53,7 @@
 </template>
 
 <script>
-import {requestRegister} from '@/api/user'
+import {requestVerify,requestModifyPassword} from '@/api/user'
 
 export default {
   name: 'modifyPassword',
@@ -75,53 +64,34 @@ export default {
       }else if(value.length<3){
         callback(new Error("密码不得少于3位"))
       }else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass')
-        }
-        callback()
-      }
-    }
-    var validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'))
-      } else if (value !== this.ruleForm.password) {
-        callback(new Error('两次输入密码不一致!'))
-      } else {
+        
         callback()
       }
     }
     return {
       logining: false,
+      verifing:false,
+      hasVerified:false,
       classnames:['计科一班','计科二班','网络工程','信息安全'
       ],
       ruleForm: {
         account: '',
         password: '',
-        checkPass: '',
         name:'',
-        sex:'',
         usertype:'',
-        phone:'',
-        classname:''
+        phone:''
       },
       rules: {
         account: [
           {required: true, message: '请输入账号', trigger: 'blur'},
           {min:12,max:12,message:'账号应为12位',trigger:'blur'}
         ],
-        password: [
-          {validator: validatePass, trigger: 'blur'},
-          {required: true, message: '请输入密码', trigger: 'blur'}
-        ],
-        checkPass: [
-          {validator: validatePass2, trigger:'blur'},
-          {required: true, message: '请再次输入密码', trigger: 'blur'}
-        ],
+        // password: [
+        //   {validator: validatePass, trigger: 'blur'},
+        //   {required: true, message: '请输入密码', trigger: 'blur'}
+        // ],
         name:[
           {required: true, message: '请输入姓名', trigger: 'blur'}
-        ],
-        sex:[
-            {required:true,message:'请选择性别',trigger:'change'}
         ],
         usertype:[
             {required:true,message:'请选择用户类型',trigger:'change'}
@@ -129,53 +99,95 @@ export default {
         phone:[
           {required: true, message: '请输入手机号码', trigger: 'blur'},
           {min:11,max:11,message:'手机号码应为11位',trigger:'blur'}
-        ],
-        classname:[
-          {required:true,message:'请选择班级',trigger:'change'}
         ]
       }
     }
   },
   computed:{
-    isManager(){
-      return !(this.ruleForm.usertype == '管理')
-    }
+    
   },
   methods: {
     handleSubmit (ev) {
-      this.$refs.ruleForm.validate((valid) => {
-          //如果验证通过
-        if (valid) {
+      var valid = false;
+      if(this.ruleForm.password == ''){
+        this.$message({
+          type:"error",
+          message:"密码不能为空！"
+        })
+        return false;
+      }else if(this.ruleForm.password.length<3){
+        this.$message({
+          type:'error',
+          message:'密码长度不能少于三位！'
+        })
+        return false;
+      }else{
+        //如果验证通过
           this.logining = true
-          var registerParams = {
+          var modifyPasswordParams = {
             sno: this.ruleForm.account,
             password: this.ruleForm.password,
-            sname: this.ruleForm.name,
-            usertype: this.ruleForm.usertype,
-            ssex: this.ruleForm.sex,
-            sphone:this.ruleForm.phone,
-            classname:this.ruleForm.classname
+            usertype: this.ruleForm.usertype
           }
-          requestRegister(registerParams).then(data => {
+          requestModifyPassword(modifyPasswordParams).then(data => {
             console.log(data)
             var data = data.data;
             if(!data.success){
               this.logining = false
               this.$message({
-                message: "用户名重复！",
+                message: "修改密码失败！",
                 type: 'error'
               })
             }else{
+              this.logining = false;
+              this.$message({
+                message: '新密码修改成功！',
+                type: 'success'
+              })
+              this.$router.push('/login')
+            }
+            // this.$router.push({path: '/login'})
+            console.log(modifyPasswordParams)
+          }).catch(err => {
+            this.logining = false
+            console.log(err)
+          })
+      }
+        
+    },
+    handleVerify (ev) {
+      this.$refs.ruleForm.validate((valid) => {
+          //如果验证通过
+        if (valid) {
+          this.verifing = true
+          var verifyParams = {
+            sno: this.ruleForm.account,
+            sname: this.ruleForm.name,
+            usertype: this.ruleForm.usertype,
+            sphone:this.ruleForm.phone
+          }
+          requestVerify(verifyParams).then(data => {
+            console.log(data)
+            var data = data.data;
+            this.verifing = false;
+            if(!data.success){
               this.logining = false
               this.$message({
-                message: '添加成功！',
+                message: "身份验证失败！",
+                type: 'error'
+              })
+            }else{
+              this.hasVerified = true;
+              this.$message({
+                message: '身份验证成功！',
                 type: 'success'
               })
             }
             // this.$router.push({path: '/login'})
-            console.log(registerParams)
+            console.log("____身份验证成功_____-")
+            console.log(verifyParams)
           }).catch(err => {
-            this.logining = false
+            this.verifing = false
             console.log(err)
           })
         } else {
@@ -183,9 +195,26 @@ export default {
           return false
         }
       })
+    },
+    handleBack(){
+      this.$router.push('/login');
     }
   },
   created(){
+    console.log(window.location.href)
+    //判断用户已经登陆进入系统，从忘记密码按钮进入，如果是，则自动填充用户账号
+    var href = window.location.href;
+    if(href.indexOf('?') !== -1){
+      var isFromInner = window.location.href.split("?")[1].split("=")[1];
+      if(isFromInner == '1'){
+        console.log('11111111111')
+        var user = JSON.parse(window.localStorage['user']),
+            account = user.sno != undefined?user.sno:(user.tno != undefined?user.tno:user.dno);
+            console.log(account)
+        this.ruleForm.account = account;
+      }
+    }
+    
     //TODO,AJAX获取班级列表,初始化this.classnames数组
   }
 }

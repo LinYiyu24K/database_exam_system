@@ -25,7 +25,7 @@
 
         <el-table-column
             prop="score"
-            label="分数"
+            label="学生成绩"
             width="150">
             <template slot-scope="scope">
                 <el-button

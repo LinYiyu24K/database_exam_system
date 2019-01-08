@@ -85,6 +85,77 @@ router.post('/register', (req, res) => {
         }
     })
 });
+//用户修改密码验证身份接口
+router.post('/verify', (req, res) => {
+    var sql = null,
+        params = req.body,
+        paramsArray = [params.sno,params.sphone,params.sname];
+    switch(params.usertype){
+        case '学生':{
+            sql = $sql.user.verifyStudent;
+            break;
+        }
+        case '教师':{
+            sql = $sql.user.verifyTeacher;
+            break;
+        }
+        case '管理':{
+            sql = $sql.user.verifyManager;
+            break;
+        }
+        default:
+        break;
+    }
+    console.log(params);//sno, password, usertype
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+            jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log(result);
+            if(result.length == 0){
+                jsonWrite(res,undefined);
+            }else{
+                jsonWrite(res, result);
+            }
+        }
+    })
+});
+//用户修改密码提交新密码接口
+router.post('/modifyPassword', (req, res) => {
+    var sql = null,
+        params = req.body,
+        paramsArray = [params.password,params.sno];
+    switch(params.usertype){
+        case '学生':{
+            sql = $sql.user.modifyPasswordStudent;
+            break;
+        }
+        case '教师':{
+            sql = $sql.user.modifyPasswordTeacher;
+            break;
+        }
+        case '管理':{
+            sql = $sql.user.modifyPasswordManager;
+            break;
+        }
+        default:
+        break;
+    }
+    console.log(params);//sno, password, usertype
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+            jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log(result);
+            console.log("_______修改密码成功______-")
+            jsonWrite(res, result);
+        }
+    })
+});
 //用户登陆接口
 router.post('/login', (req, res) => {
     var sql = null,

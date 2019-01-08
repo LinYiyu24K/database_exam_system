@@ -28,6 +28,11 @@
             登录
           </el-button>
         </el-form-item>
+        <el-form-item style="width:100%;">
+          <el-button  style="width:100%;" @click.native.prevent="handleRegister">
+            注册
+          </el-button>
+        </el-form-item>
 
         <el-form-item style="width:100%;">
           <router-link to="/modifyPassword" style="float: right; color: #bbbbbb">忘记密码？</router-link>
@@ -109,6 +114,9 @@ export default {
           return false
         }
       })
+    },
+    handleRegister(){
+      this.$router.push('/register');
     }
   },
   beforeRouteEnter (to, from, next) {

@@ -13,7 +13,13 @@ var sqlMap = {
         findAllManager: 'select * from manager',
         deleteStudent: 'delete from student where sno=?',
         deleteTeacher: 'delete from teacher where tno=?',
-        deleteManager: 'delete from manager where dno=?'
+        deleteManager: 'delete from manager where dno=?',
+        verifyStudent: 'select * from student where sno=? and sphone=? and sname=?',
+        verifyTeacher: 'select * from teacher where tno=? and tphone=? and tname=?',
+        verifyManager: 'select * from manager where dno=? and dphone=? and dname=?',
+        modifyPasswordStudent: 'update student set password=? where sno=?',
+        modifyPasswordTeacher: 'update teacher set password=? where tno=?',
+        modifyPasswordManager: 'update manager set password=? where dno=?'
     },
     //题目
     question:{

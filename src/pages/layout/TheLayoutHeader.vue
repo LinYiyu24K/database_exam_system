@@ -15,10 +15,9 @@
         {{ user_name }}<i class="fa fa-user-circle-o fa-2x" style="margin-left: 10px"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>我的账号</el-dropdown-item>
-        <el-dropdown-item>修改密码</el-dropdown-item>
-        <el-dropdown-item divided>主题设置</el-dropdown-item>
-        <el-dropdown-item>语言选择</el-dropdown-item>
+        <el-dropdown-item>
+        <router-link to="/modifyPassword?modify=1">修改密码</router-link>
+        </el-dropdown-item>
         <el-dropdown-item divided>
           <router-link to="/login">退出登录</router-link>
         </el-dropdown-item>

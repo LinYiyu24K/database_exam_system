@@ -12,6 +12,14 @@ export const requestLogin = params => {
 export const requestRegister = params => {
     return request('/api/user/register', params)
   }
+//用户修改密码验证身份
+export const requestVerify = params => {
+    return request('/api/user/verify', params)
+  }
+//用户修改密码提交新密码
+export const requestModifyPassword = params => {
+    return request('/api/user/modifyPassword', params)
+  }
 //获取所有用户信息列表
 export const requestGetUserLists = params => {
     return requestGET('/api/user/userLists', params)

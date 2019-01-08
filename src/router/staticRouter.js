@@ -1,6 +1,6 @@
 import AppLogin from '@/pages/login/AppLogin'
 import AppRegister from '@/pages/login/AppRegister'
-import AppForgetPassword from '@/pages/login/AppForgetPassword'
+import UserRegister from '@/pages/functions/forms/userManagement/UserRegister'
 import AppError401 from '@/pages/error/AppError401'
 import AppError404 from '@/pages/error/AppError404'
 import TheLayout from '@/pages/layout/TheLayout'
@@ -35,7 +35,7 @@ const staticRouter = [
   }, {
     path: '/register',
     name: '注册',
-    component: AppRegister
+    component: UserRegister
   }, {
     path: '/modifyPassword',
     name: '忘记修改密码',
@@ -85,11 +85,25 @@ const staticRouter = [
         component: AppRegister
       }
     ]
-  }, {
+  },{
     path: '/',
     component: TheLayout,
     menu: true,
     name: '学生管理',
+    icon: 'el-icon-menu',
+    children: [
+      {
+        path: '/forms/studentLists',
+        name: '学生管理',
+        icon: 'el-icon-menu',
+        component: StudentLists
+      }
+    ]
+  }, {
+    path: '/',
+    component: TheLayout,
+    menu: true,
+    name: '个人管理',
     icon: 'el-icon-menu',
     children: [
       {
