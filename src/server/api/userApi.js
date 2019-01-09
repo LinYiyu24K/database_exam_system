@@ -518,7 +518,7 @@ router.get('/getTestpaperQuestions', (req, res) => {
 router.post('/commitTest', (req, res) => {
     var sql = $sql.testpaper.commitTest,
         params = req.body,
-        paramsArray = [params.sno,params.testno,params.grade,params.studentanswer];
+        paramsArray = [params.sno,params.testno,params.grade,params.studentanswer,params.grade];
     console.log("_______收到的胶卷考试编号__________");
     console.log(params.testno);
     conn.query(sql, paramsArray, function(err, result) {
@@ -553,6 +553,25 @@ router.get('/getGrade', (req, res) => {
             console.log("_______-获取所有学生考试成绩成功____________")
             console.log(ret)
             jsonWrite(res, ret);
+        }
+    })
+});
+
+//教师评改学生综合题成绩，得到总分接口
+router.post('/modifyGrade', (req, res) => {
+    var sql = $sql.test.modifyGrade,
+        params = req.body,
+        paramsArray = [params.synthesisGrade,params.sno,params.testno];
+    console.log("_______收到的考试编号__________");
+    console.log(params.testno);
+    conn.query(sql, paramsArray, function(err, result) {
+        if (err) {
+            console.log(err);
+                jsonWrite(res,undefined);
+        }
+        if (result) {
+            console.log("_______-教师评分成功____________")
+            jsonWrite(res, result);
         }
     })
 });

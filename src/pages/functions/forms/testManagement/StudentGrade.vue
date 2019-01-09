@@ -111,7 +111,12 @@
 
         <el-table-column
             prop="grade"
-            label="分数"
+            label="选择、判断题分数"
+            sortable>
+        </el-table-column>
+        <el-table-column
+            prop="sumgrade"
+            label="总成绩"
             sortable>
         </el-table-column>
 
@@ -126,7 +131,7 @@
 </template>
 
 <script>
-import {requestExaminationInfo, requestdeleteTest, requestgetTestStudentGrade} from '@/api/user'
+import {requestExaminationInfo, requestdeleteTest, requestgetTestStudentGrade,requestModifyGrade} from '@/api/user'
 
 export default {
   name: 'StudentGrade',
@@ -143,23 +148,56 @@ export default {
           ],
           loadding:false,
           showStudentGrade:false,
-          synthesisGrade:0
+          synthesisGrade:0,
+          //存储当前选中的试卷号
+          testno:''
       }
     },
     methods: {
         onSubmit(sno){
             console.log("学生的学号是："+sno);
             console.log("学生的综合题分数是是："+this.synthesisGrade);
-            var grade = this.synthesisGrade;
-            if(typeof grade != 'number' || grade<0 || grade>15){
+            var grade = + this.synthesisGrade;
+            if(typeof grade != 'number' || grade<0 || grade>45){
+                console.log(typeof grade)
                 this.$message({
                     type:'error',
-                    message:'请输入 0-15 范围的数字分数'
+                    message:'请输入 0-45 范围的数字分数'
                 })
                 this.synthesisGrade = 0;
                 return false;
             }
             //TODO
+            var params = {
+                "synthesisGrade" : this.synthesisGrade,
+                "sno" : sno,
+                "testno":this.testno
+            }
+            requestModifyGrade(params).then(data=>{
+                var data = data.data;
+                console.log("_____老师评卷学生 "+sno+" 的综合题成绩成功____-");
+                console.log(data)
+                if(data.success){
+                    this.$message({
+                        type:'success',
+                        message:'评分成功'
+                    })
+                    this.showAllStudentsGrade(1,{'testname':this.title,'testno':this.testno})
+                    this.synthesisGrade = 0;
+                }else{
+                    this.$message({
+                        type:'error',
+                        message:'评分失败'
+                    })
+                    this.synthesisGrade = 0;
+                }
+            }).catch(e=>{
+                this.$message({
+                        type:'error',
+                        message:'评分失败!'
+                    })
+                this.synthesisGrade = 0;
+            })
 
         },
         back(){
@@ -170,6 +208,7 @@ export default {
             //   this.$router.push('/forms/getStudentGrade')
             this.showStudentGrade = true;
             this.title = row.testname;
+            this.testno = row.testno;
             var params = {
                 classname : JSON.parse(window.localStorage.getItem('user')).classname,
                 testno : row.testno
@@ -189,7 +228,6 @@ export default {
                         });
                         console.log(s)
                         console.log(synthesis)
-                        console.log("___________"+s.ret)
                         item.synthesis1 = synthesis[0];
                         item.synthesis2 = synthesis[1];
                         item.synthesis3 = synthesis[2];

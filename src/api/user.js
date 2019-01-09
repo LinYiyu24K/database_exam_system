@@ -83,3 +83,7 @@ export const requestCommitTest = params => {
 export const requestgetTestStudentGrade = params => {
     return requestGET('/api/user/getGrade',params)
 }
+//老师提交学生综合题成绩更新成绩
+export const requestModifyGrade = params => {
+    return request('/api/user/modifyGrade', params)
+  }

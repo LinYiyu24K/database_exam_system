@@ -38,7 +38,13 @@
 
         <el-table-column
             prop="grade"
-            label="分数"
+            label="选择、判断题分数"
+            width="150"
+            sortable>
+        </el-table-column>
+        <el-table-column
+            prop="sumgrade"
+            label="总分"
             width="150"
             sortable>
         </el-table-column>
