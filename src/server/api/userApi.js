@@ -537,18 +537,22 @@ router.post('/commitTest', (req, res) => {
 router.get('/getGrade', (req, res) => {
     var sql = $sql.test.getGrade,
         params = req.query,
-        paramsArray = [params.classname,params.testno];
+        paramsArray = [params.testno];
     
     console.log("_______查询所有学生考试成绩信息__________");
     console.log(params);
-    conn.query(sql, paramsArray,function(err, result) {
+    conn.query(sql,paramsArray,function(err, result) {
         if (err) {
             console.log(err);
                 jsonWrite(res,undefined);
         }
         if (result) {
+            var ret = result.filter(item=>{
+                return item.classname == params.classname;
+            })
             console.log("_______-获取所有学生考试成绩成功____________")
-            jsonWrite(res, result);
+            console.log(ret)
+            jsonWrite(res, ret);
         }
     })
 });

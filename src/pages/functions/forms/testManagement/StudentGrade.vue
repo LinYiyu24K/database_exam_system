@@ -55,6 +55,48 @@
 
     <el-table :data="gradeData" border style="width: 100%" max-height="700"  v-show="showStudentGrade">
         
+        <el-table-column type="expand">
+            <template slot-scope="props">
+                <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="题目1：" style="width:100%">
+                    <span>{{ props.row.synthesis1.qcontent }}</span>
+                </el-form-item>
+                <el-form-item label="学生答案1：" style="width:100%">
+                    <span style="color:red">{{ props.row.synthesis1.qanswer }}</span>
+                </el-form-item>
+                <el-form-item label="正确答案1：" style="width:100%">
+                    <span style="color:green">{{ props.row.synthesis1.trueanswer }}</span>
+                </el-form-item>
+                <el-form-item label="题目2：" style="width:100%">
+                    <span>{{ props.row.synthesis2.qcontent }}</span>
+                </el-form-item>
+                <el-form-item label="学生答案2：" style="width:100%">
+                    <span style="color:red">{{ props.row.synthesis2.qanswer }}</span>
+                </el-form-item>
+                <el-form-item label="正确答案2：" style="width:100%">
+                    <span style="color:green">{{ props.row.synthesis2.trueanswer }}</span>
+                </el-form-item>
+                <el-form-item label="题目3：" style="width:100%">
+                    <span>{{ props.row.synthesis3.qcontent }}</span>
+                </el-form-item>
+                <el-form-item label="学生答案3：" style="width:100%">
+                    <span style="color:red">{{ props.row.synthesis3.qanswer }}</span>
+                </el-form-item>
+                <el-form-item label="正确答案3：" style="width:100%">
+                    <span style="color:green">{{ props.row.synthesis3.trueanswer }}</span>
+                </el-form-item>
+                
+                <el-form-item label="请输入该学生综合题总分">
+                    <el-input v-model="synthesisGrade"></el-input>
+                </el-form-item>
+                
+                <el-form-item>
+                    <el-button type="primary" @click.native.prevent="onSubmit(props.row.sno)">提交分数</el-button>
+                </el-form-item>
+                </el-form>
+            </template>
+        </el-table-column>
+
         <el-table-column
             prop="sno"
             label="学生学号"
@@ -100,65 +142,103 @@ export default {
               }
           ],
           loadding:false,
-          showStudentGrade:false
+          showStudentGrade:false,
+          synthesisGrade:0
       }
     },
     methods: {
-      back(){
-          this.title='考试信息';
-          this.showStudentGrade = false;
-      },
-      showAllStudentsGrade(index,row){
-        //   this.$router.push('/forms/getStudentGrade')
-        this.showStudentGrade = true;
-        this.title = row.testname;
-        var params = {
-            classname : JSON.parse(window.localStorage.getItem('user')).classname,
-            testno : row.testno
-        }
-        requestgetTestStudentGrade(params).then(data => {
-            var data = data.data;
-            console.log('这里是 成绩数据')
-            console.log(data);
-            this.gradeData = data.result;
-        })
+        onSubmit(sno){
+            console.log("学生的学号是："+sno);
+            console.log("学生的综合题分数是是："+this.synthesisGrade);
+            var grade = this.synthesisGrade;
+            if(typeof grade != 'number' || grade<0 || grade>15){
+                this.$message({
+                    type:'error',
+                    message:'请输入 0-15 范围的数字分数'
+                })
+                this.synthesisGrade = 0;
+                return false;
+            }
+            //TODO
 
-      },
-      deleteRow(index,rows){
-          this.$confirm('移除该场考试，相关学生成绩也将失效，是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-            requestdeleteTest(rows[index]).then(data=>{
-              console.log(data);
-              var data = data.data;
-              if(data.success){
+        },
+        back(){
+            this.title='考试信息';
+            this.showStudentGrade = false;
+        },
+        showAllStudentsGrade(index,row){
+            //   this.$router.push('/forms/getStudentGrade')
+            this.showStudentGrade = true;
+            this.title = row.testname;
+            var params = {
+                classname : JSON.parse(window.localStorage.getItem('user')).classname,
+                testno : row.testno
+            }
+            requestgetTestStudentGrade(params).then(data => {
+                var data = data.data;
+                console.log('这里是 成绩数据')
+                console.log(data);
+                //将 data.result 中学生综合题的内容提取出来
+                var synthesis = null;
+                var s = '';
+                data.result.forEach(item=>{
+                    if(typeof item.studentanswer == 'string'){
+                        s = item.studentanswer;
+                        synthesis = JSON.parse(s).ret.filter(item=>{
+                            return item.qtype == '综合'
+                        });
+                        console.log(s)
+                        console.log(synthesis)
+                        console.log("___________"+s.ret)
+                        item.synthesis1 = synthesis[0];
+                        item.synthesis2 = synthesis[1];
+                        item.synthesis3 = synthesis[2];
+                    }else{
+                        item.synthesis1 = {qcontent:'无',qanswer:'该学生未作答',trueanswer:'无'};
+                        item.synthesis2 = {qcontent:'无',qanswer:'该学生未作答',trueanswer:'无'};
+                        item.synthesis3 = {qcontent:'无',qanswer:'该学生未作答',trueanswer:'无'};
+                    }
+                    
+                })
+                this.gradeData = data.result;
+            })
+
+        },
+        deleteRow(index,rows){
+            this.$confirm('移除该场考试，相关学生成绩也将失效，是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(() => {
+                requestdeleteTest(rows[index]).then(data=>{
+                console.log(data);
+                var data = data.data;
+                if(data.success){
+                    this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                    });
+                    console.log('删除了考试：'+rows[index])
+                    this.getTestLists();
+                }else{
+                    this.$message({
+                    type: 'error',
+                    message: '删除失败!'
+                    });
+                }
+            }).catch(e=>{
                 this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-                });
-                console.log('删除了考试：'+rows[index])
-                this.getTestLists();
-              }else{
-                this.$message({
-                  type: 'error',
-                  message: '删除失败!'
-                });
-              }
-          }).catch(e=>{
-              this.$message({
-                type: 'error',
-                message: '删除失败'
-              });  
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-      },
+                    type: 'error',
+                    message: '删除失败'
+                });  
+            });
+            }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            });          
+            });
+        },
       //时间转换函数
         getDateString(time) {
             var date = new Date(time);

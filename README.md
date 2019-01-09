@@ -49,3 +49,27 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 三、学生
     1、点击选择考试进行考试：根据 老师学生 表获取老师，在试卷表根据 tno 获取所有试卷号，联合考试管理表得到该 teacher 的所有考试
         考完试获得成绩
+
+系统使用：
+环境：node
+
+1、安装依赖。进到 /database_exam_system 根目录下， 执行 
+npm install 
+2、依赖缺失。若报错 can't not find mudule 'mysql' 或者其他错误，则执行
+npm install mysql
+npm install express
+3、启动数据库。管理员启动cmd，执行
+net start mysql
+4、启动项目。启动终端到 /database_exam_system 下，执行
+npm start
+5、启动服务器。另开一个终端到 /database_exam_system/src/server/下，执行
+node index.js
+6、启动成功
+
+管理员、学生、教师初始账号均为 201530551301 ，密码123456
+进入 localhost:8080/#/login
+
+## 注意事项：
+## 数据库配置，/database_exam_system/src/server/db.js ，此文件可配置个人配置
+## 若 npm install 总是 error ，则删除掉根目录下 node_modules 整个文件夹，重新安装依赖，即 npm ## install
+## 若导入 .sql文件，注意数据库名为 exam_system

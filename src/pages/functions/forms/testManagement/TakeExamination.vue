@@ -149,10 +149,9 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-            var obj = {"trueAnswer":{},"studentAnswer":{}};
+            
             var studentAnswer = this.singleQuestions.concat(this.judgeQuestions,this.multipleQuestions,this.synthesisQuestions);
-            obj.trueAnswer = this.trueQuestionAnswer;
-            obj.studentAnswer = studentAnswer;
+            
             var user = JSON.parse(window.localStorage['user']),
                 sno = user.sno || user.account;
             var testno = this.test.testno;
@@ -160,6 +159,7 @@ export default {
             studentAnswer.forEach(item=>{
                 this.trueQuestionAnswer.forEach(q=>{
                     if(item.qno == q.qno){
+                        item.trueanswer = q.qanswer;
                         if(item.qanswer == q.qanswer){
                             grade = grade+q.qvalue;
                             console.log("grade加分了："+grade)
@@ -167,10 +167,12 @@ export default {
                     }
                 })
             })
+            var obj = {ret:studentAnswer};
+            console.log("____学生选择题评分结果____")
             console.log(grade)
+            console.log("____学生选择题答案结果结果____")
             console.log(studentAnswer)
-            console.log("++++++++++++++++++++=")
-            console.log(this.trueQuestionAnswer)
+            // return false
             var ret = {sno,grade,testno,studentanswer:JSON.stringify(obj)};
             requestCommitTest(ret).then(data=>{
               console.log(data)
