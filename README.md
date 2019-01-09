@@ -65,11 +65,13 @@ npm start
 5、启动服务器。另开一个终端到 /database_exam_system/src/server/下，执行
 node index.js
 6、启动成功
+7、在浏览器输入 http://localhost:8080/#/login即可登陆
 
 管理员、学生、教师初始账号均为 201530551301 ，密码123456
-进入 localhost:8080/#/login
+推出为右上角的，鼠标移动到用户名上（不需点击），即会弹出 退出登陆按钮，如果无效，多退出几次
 
 ## 注意事项：
-## 数据库配置，/database_exam_system/src/server/db.js ，此文件可配置个人配置
-## 若 npm install 总是 error ，则删除掉根目录下 node_modules 整个文件夹，重新安装依赖，即 npm ## install
+## 1、数据库配置，/database_exam_system/src/server/db.js ，此文件可配置个人配置
+## 2、若 npm install 总是 error ，则删除掉根目录下 node_modules 整个文件夹，重新安装依赖，即
+## npm  install
 ## 若导入 .sql文件，注意数据库名为 exam_system
